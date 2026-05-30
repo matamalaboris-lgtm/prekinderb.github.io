@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
   :root{
@@ -283,6 +284,7 @@
 
   .notice{background:#FFE9C7;border:1px solid var(--sun);color:#8a5b12;padding:12px 16px;border-radius:14px;
     font-weight:700;font-size:.86rem;margin:0 auto 18px;max-width:780px;text-align:center}
+  .notice--sync{background:#E2EEF7;border-color:var(--pine);color:var(--pine-deep)}
 
   @media(max-width:880px){
     .hero{padding:48px 0 24px}
@@ -309,7 +311,7 @@
   <div class="wrap">
     <div class="brand">
       <img class="brand-logo" src="assets/logo-antuquenu.png" alt="Colegio Antuquenú" />
-      <span class="b-lines">Prekínder B
+      <span class="b-lines">Prekínder B 2026
         <small>Colegio Antuquenú</small>
       </span>
     </div>
@@ -578,7 +580,7 @@
     <input id="cfgDate" type="text" placeholder="Ej: 15 de agosto" />
     <label>Datos de transferencia (uno por línea)</label>
     <input id="cfgBank" type="text" placeholder="Banco · Cuenta · RUT · Nombre · Correo" />
-    <p class="hint">Formato sugerido: «Banco Estado | Cuenta Vista 12345678 | RUT 11.111.111-1 | Curso PreK B | <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="97f4f8e5e5f2f8d7faf6fefbb9f4f8fa">[email&#160;protected]</a>» separando cada dato con « | ».</p>
+    <p class="hint">Formato sugerido: «Banco Estado | Cuenta Vista 12345678 | RUT 11.111.111-1 | Curso PreK B | <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="40232f3232252f002d21292c6e232f2d">[email&#160;protected]</a>» separando cada dato con « | ».</p>
     <label>Link de pago Mercado Pago <span style="font-weight:600;color:var(--ink-soft)">— opcional</span></label>
     <input id="cfgMpLink" type="text" placeholder="https://mpago.la/xxxxx" />
     <p class="hint">Crea un «Link de pago» en tu cuenta Mercado Pago (idealmente de «monto libre») y pégalo aquí. Aparecerá un botón para pagar al generar el ticket.</p>
@@ -618,6 +620,94 @@ async function sSet(key,val){
   catch(e){ return false; }
 }
 
+/* ============ SUPABASE (sincronización en la nube) ============
+   Rellena estos dos valores con los de TU proyecto Supabase
+   (Project Settings → API). El "anon key" es público y seguro de
+   exponer. Mientras estén vacíos, el sitio funciona en modo local. */
+const SUPABASE_URL = "https://nzpjeoxweobwbqsbczom.supabase.co";       // Project URL
+const SUPABASE_ANON_KEY = "sb_publishable_ZYoTuOchn_nrh5gRWhLXCQ_030qFHOx";  // publishable key
+const ORG_PASSWORD = "antu2026"; // clave de organizadores (modo nube)
+
+let sb = null;
+function useSB(){ return !!sb; }
+function initSupabase(){
+  try{
+    if(SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase){
+      sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    }
+  }catch(e){ sb=null; }
+  return useSB();
+}
+function mapTicket(r){
+  return { number:r.number, code:r.code, name:r.name, contact:r.contact,
+    student:r.student||"", status:r.status||"pending", method:r.method||"",
+    price:r.price||0, createdAt:r.created_at||r.createdAt };
+}
+async function sbEnsureConfig(){
+  const { data } = await sb.from("config").select("data").eq("id",1).maybeSingle();
+  if(!data){
+    const seed = { config:stripPw(DEFAULT_STATE.config), winners:[] };
+    await sb.from("config").upsert({ id:1, data:seed });
+    return seed;
+  }
+  return data.data || { config:{}, winners:[] };
+}
+function stripPw(cfg){ const c=Object.assign({},cfg); delete c.pw; return c; }
+async function sbLoadAll(){
+  const cfgData = await sbEnsureConfig();
+  const { data: tk } = await sb.from("tickets").select("*").order("number",{ascending:true});
+  const tickets = (tk||[]).map(mapTicket);
+  const cfg = Object.assign({}, DEFAULT_STATE.config, cfgData.config||{});
+  cfg.pw = ORG_PASSWORD; // la clave no se guarda en la nube, es constante local
+  const maxNum = tickets.reduce((m,t)=>Math.max(m,t.number),0);
+  STATE = {
+    config: cfg,
+    winners: cfgData.winners || [],
+    winner: (cfgData.winners||[])[0] || null,
+    tickets,
+    nextNumber: maxNum + 1
+  };
+}
+async function sbSaveConfig(){
+  if(!useSB()) return;
+  await sb.from("config").upsert({ id:1, data:{ config:stripPw(STATE.config), winners:STATE.winners||[] } });
+}
+async function sbInsertTickets(base, qty){
+  const rows = Array.from({length:qty}, ()=>({
+    code:"…", name:base.name, contact:base.contact, student:base.student,
+    status:base.status, method:base.method, price:base.price
+  }));
+  const { data, error } = await sb.from("tickets").insert(rows).select();
+  if(error){ throw error; }
+  const created = [];
+  for(const r of (data||[])){
+    const code = pad(r.number).slice(-2) + "-" + randCode();
+    await sb.from("tickets").update({ code }).eq("number", r.number);
+    created.push(mapTicket({ ...r, code }));
+  }
+  return created;
+}
+let _syncing=false;
+async function syncRefresh(){
+  if(!useSB() || _syncing) return;
+  _syncing=true;
+  try{
+    await sbLoadAll();
+    renderPublic();
+    if($("#adminPanel") && $("#adminPanel").classList.contains("show")) renderAdmin();
+  }catch(e){}
+  _syncing=false;
+}
+function subscribeRealtime(){
+  if(!useSB()) return;
+  try{
+    sb.channel("raffle-sync")
+      .on("postgres_changes", { event:"*", schema:"public", table:"tickets" }, syncRefresh)
+      .on("postgres_changes", { event:"*", schema:"public", table:"config" }, syncRefresh)
+      .subscribe();
+  }catch(e){}
+}
+
 /* ============ STATE ============ */
 const DEFAULT_STATE = {
   config:{
@@ -638,6 +728,7 @@ const DEFAULT_STATE = {
 let STATE = null;
 
 async function loadState(){
+  if(useSB()){ await sbLoadAll(); ensurePrizes(); return; }
   const raw = await sGet("raffle:state");
   if(raw){
     try{ STATE = typeof raw === "string" ? JSON.parse(raw) : raw; }
@@ -663,7 +754,17 @@ async function loadState(){
     STATE.winners = STATE.winner ? [{rank:0, prizeName:(getPrizes()[0]||{}).name||"", number:STATE.winner.number, name:STATE.winner.name, code:STATE.winner.code}] : [];
   }
 }
-async function saveState(){ await sSet("raffle:state", JSON.stringify(STATE)); }
+function ensurePrizes(){
+  STATE.config = Object.assign({}, DEFAULT_STATE.config, STATE.config||{});
+  if(!Array.isArray(STATE.config.prizes) || !STATE.config.prizes.length){
+    STATE.config.prizes = [{name:STATE.config.prize||"", img:STATE.config.prizeImg||""}];
+  }
+  if(!Array.isArray(STATE.winners)) STATE.winners = [];
+}
+async function saveState(){
+  if(useSB()){ await sbSaveConfig(); return; }
+  await sSet("raffle:state", JSON.stringify(STATE));
+}
 
 /* ============ HELPERS ============ */
 const $ = s => document.querySelector(s);
@@ -785,26 +886,40 @@ async function buyTickets(){
   $("#confirmBuyBtn").disabled = true;
   await loadState(); // refrescar para evitar números duplicados
 
-  const created = [];
-  const stamp = new Date().toISOString();
-  for(let i=0;i<qty;i++){
-    const num = STATE.nextNumber++;
-    const t = {
-      number:num,
-      code: pad(num).slice(-2) + "-" + randCode(),
-      name, contact, student,
-      status:"pending",
-      method: currentPayMethod,
-      price: STATE.config.price,
-      createdAt: stamp
-    };
-    STATE.tickets.push(t);
-    created.push(t);
+  let created = [];
+  if(useSB()){
+    try{
+      created = await sbInsertTickets(
+        { name, contact, student, status:"pending", method:currentPayMethod, price:STATE.config.price },
+        qty
+      );
+    }catch(e){
+      $("#confirmBuyBtn").disabled = false;
+      alert("No se pudo registrar el ticket en la base de datos. Revisa tu conexi\u00f3n e int\u00e9ntalo de nuevo.");
+      return;
+    }
+    await syncRefresh();
+  } else {
+    const stamp = new Date().toISOString();
+    for(let i=0;i<qty;i++){
+      const num = STATE.nextNumber++;
+      const t = {
+        number:num,
+        code: pad(num).slice(-2) + "-" + randCode(),
+        name, contact, student,
+        status:"pending",
+        method: currentPayMethod,
+        price: STATE.config.price,
+        createdAt: stamp
+      };
+      STATE.tickets.push(t);
+      created.push(t);
+    }
+    await saveState();
+    renderPublic();
   }
-  await saveState();
   $("#confirmBuyBtn").disabled = false;
   resetPayFlow();
-  renderPublic();
   showTickets(created);
 }
 
@@ -962,6 +1077,11 @@ function renderAdmin(){
   updateDrawButton();
 }
 async function setStatus(num,st){
+  if(useSB()){
+    await sb.from("tickets").update({ status:st }).eq("number", num);
+    await syncRefresh();
+    return;
+  }
   await loadState();
   const t = STATE.tickets.find(x=>x.number===num); if(t){ t.status=st; await saveState(); renderAdmin(); renderPublic(); }
 }
@@ -971,6 +1091,12 @@ async function delTicket(num){
   STATE.tickets = STATE.tickets.filter(x=>x.number!==num);
   STATE.winners = (STATE.winners||[]).filter(w=>w.number!==num);
   STATE.winner = STATE.winners[0] || null;
+  if(useSB()){
+    await sb.from("tickets").delete().eq("number", num);
+    await sbSaveConfig();
+    await syncRefresh();
+    return;
+  }
   await saveState(); renderAdmin(); renderPublic();
 }
 window.setStatus = setStatus; window.delTicket = delTicket;
@@ -1040,6 +1166,13 @@ async function resetContest(){
   STATE.nextNumber = 1;
   STATE.winners = [];
   STATE.winner = null;
+  if(useSB()){
+    await sb.from("tickets").delete().neq("number", -1);
+    await sbSaveConfig();
+    await syncRefresh();
+    alert("Listo. El concurso fue reiniciado: 0 tickets vendidos.\n\n(En la nube, la numeración continúa de forma correlativa para no repetir números ya impresos.)");
+    return;
+  }
   await saveState();
   renderAdmin();
   renderPublic();
@@ -1119,12 +1252,14 @@ async function saveCfg(){
 
 /* ============ WIRING ============ */
 document.addEventListener("DOMContentLoaded", async ()=>{
+  initSupabase();
   await loadState();
   renderPublic();
+  subscribeRealtime();
 
-  if(!hasStore){
-    const n=document.createElement("p"); n.className="notice";
-    n.innerHTML="ℹ️ Estás viendo una vista previa local: los tickets se guardan permanentemente cuando la página corre dentro de Claude. Para uso real con varios compradores, publica el sitio con un servicio de hosting (ver instrucciones).";
+  if(useSB()){
+    const n=document.createElement("p"); n.className="notice notice--sync";
+    n.innerHTML="🟢 Sincronizado en la nube — las compras se guardan y actualizan en tiempo real para todos.";
     $("#comprar .wrap").prepend(n);
   }
 
