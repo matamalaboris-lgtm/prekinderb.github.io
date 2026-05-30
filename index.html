@@ -137,6 +137,18 @@
   .prize-dots i{width:7px;height:7px;border-radius:99px;background:var(--line);transition:width .25s ease, background .25s ease;display:block}
   .prize-dots i.active{background:var(--sun);width:20px}
   .cfg-prize{display:grid;grid-template-columns:1.25fr 1fr;gap:8px;margin-bottom:8px}
+  .cfg-photo{display:flex;align-items:center;gap:6px}
+  .photo-btn{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;
+    border:1.5px dashed var(--line);border-radius:12px;background:var(--cream);color:var(--ink-soft);
+    font-weight:700;font-size:.86rem;padding:11px 10px;text-align:center;background-size:cover;background-position:center;
+    min-height:46px;transition:border-color .15s, color .15s;overflow:hidden}
+  .photo-btn:hover{border-color:var(--pine);color:var(--pine)}
+  .photo-btn.has-img{border-style:solid;border-color:var(--pine);color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.7)}
+  .photo-btn.has-img .pb-txt{background:rgba(20,54,85,.55);padding:3px 8px;border-radius:7px;font-size:.78rem}
+  .photo-clear{flex:none;width:38px;height:38px;border-radius:10px;border:1px solid var(--line);background:#fff;
+    color:var(--coral);cursor:pointer;font-size:.9rem;display:none;align-items:center;justify-content:center}
+  .photo-clear.show{display:flex}
+  .photo-clear:hover{border-color:var(--coral)}
   .prize-meta{display:grid;grid-template-columns:1fr 1fr;gap:12px}
   .prize-meta div{background:var(--cream);border-radius:14px;padding:12px 14px;border:1px solid var(--line-soft)}
   .prize-meta span{display:block;font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);font-weight:800;margin-bottom:2px}
@@ -570,17 +582,23 @@
     <h3>Configurar sorteo</h3>
     <p class="sub">Estos datos se muestran en toda la página</p>
     <label>Premios del sorteo</label>
-    <p class="hint" style="margin-top:0">Agrega hasta 3 premios. La tarjeta los muestra rotando en orden aleatorio.</p>
-    <div class="cfg-prize"><input id="cfgPrize1" type="text" placeholder="1er premio — nombre" /><input id="cfgImg1" type="text" placeholder="Foto URL (opcional)" /></div>
-    <div class="cfg-prize"><input id="cfgPrize2" type="text" placeholder="2º premio — nombre (opcional)" /><input id="cfgImg2" type="text" placeholder="Foto URL (opcional)" /></div>
-    <div class="cfg-prize"><input id="cfgPrize3" type="text" placeholder="3er premio — nombre (opcional)" /><input id="cfgImg3" type="text" placeholder="Foto URL (opcional)" /></div>
+    <p class="hint" style="margin-top:0">Agrega hasta 3 premios. Sube una foto desde tu dispositivo (se optimiza sola). La tarjeta los muestra rotando en orden aleatorio.</p>
+    <div class="cfg-prize"><input id="cfgPrize1" type="text" placeholder="1er premio — nombre" />
+      <div class="cfg-photo"><input type="hidden" id="cfgImg1" /><label class="photo-btn" id="cfgPrev1"><input type="file" accept="image/*" id="cfgFile1" hidden /><span class="pb-txt">📷 Subir foto</span></label><button type="button" class="photo-clear" id="cfgClear1" title="Quitar foto">✕</button></div>
+    </div>
+    <div class="cfg-prize"><input id="cfgPrize2" type="text" placeholder="2º premio — nombre (opcional)" />
+      <div class="cfg-photo"><input type="hidden" id="cfgImg2" /><label class="photo-btn" id="cfgPrev2"><input type="file" accept="image/*" id="cfgFile2" hidden /><span class="pb-txt">📷 Subir foto</span></label><button type="button" class="photo-clear" id="cfgClear2" title="Quitar foto">✕</button></div>
+    </div>
+    <div class="cfg-prize"><input id="cfgPrize3" type="text" placeholder="3er premio — nombre (opcional)" />
+      <div class="cfg-photo"><input type="hidden" id="cfgImg3" /><label class="photo-btn" id="cfgPrev3"><input type="file" accept="image/*" id="cfgFile3" hidden /><span class="pb-txt">📷 Subir foto</span></label><button type="button" class="photo-clear" id="cfgClear3" title="Quitar foto">✕</button></div>
+    </div>
     <label>Valor por ticket (CLP)</label>
     <input id="cfgPrice" type="number" min="0" />
     <label>Fecha del sorteo</label>
     <input id="cfgDate" type="text" placeholder="Ej: 15 de agosto" />
     <label>Datos de transferencia (uno por línea)</label>
     <input id="cfgBank" type="text" placeholder="Banco · Cuenta · RUT · Nombre · Correo" />
-    <p class="hint">Formato sugerido: «Banco Estado | Cuenta Vista 12345678 | RUT 11.111.111-1 | Curso PreK B | <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="40232f3232252f002d21292c6e232f2d">[email&#160;protected]</a>» separando cada dato con « | ».</p>
+    <p class="hint">Formato sugerido: «Banco Estado | Cuenta Vista 12345678 | RUT 11.111.111-1 | Curso PreK B | <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="56353924243339163b373f3a7835393b">[email&#160;protected]</a>» separando cada dato con « | ».</p>
     <label>Link de pago Mercado Pago <span style="font-weight:600;color:var(--ink-soft)">— opcional</span></label>
     <input id="cfgMpLink" type="text" placeholder="https://mpago.la/xxxxx" />
     <p class="hint">Crea un «Link de pago» en tu cuenta Mercado Pago (idealmente de «monto libre») y pégalo aquí. Aparecerá un botón para pagar al generar el ticket.</p>
@@ -1217,12 +1235,43 @@ function openAdmin(){
 function requestAdmin(){ $("#pwOverlay").classList.add("show"); $("#pwInput").focus(); }
 
 /* ============ CONFIG ============ */
+function fileToScaledDataUrl(file, maxW=900, quality=0.78){
+  return new Promise((resolve,reject)=>{
+    const fr=new FileReader();
+    fr.onload=()=>{
+      const img=new Image();
+      img.onload=()=>{
+        let w=img.width, h=img.height;
+        if(w>maxW){ h=Math.round(h*maxW/w); w=maxW; }
+        const cv=document.createElement("canvas"); cv.width=w; cv.height=h;
+        cv.getContext("2d").drawImage(img,0,0,w,h);
+        try{ resolve(cv.toDataURL("image/jpeg",quality)); }catch(e){ reject(e); }
+      };
+      img.onerror=reject; img.src=fr.result;
+    };
+    fr.onerror=reject; fr.readAsDataURL(file);
+  });
+}
+function setPrizePhoto(i, val){
+  $("#cfgImg"+i).value = val || "";
+  const btn=$("#cfgPrev"+i), clr=$("#cfgClear"+i), txt=btn.querySelector(".pb-txt");
+  if(val){ btn.classList.add("has-img"); btn.style.backgroundImage=`url("${val.replace(/"/g,'&quot;')}")`; txt.textContent="Cambiar foto"; clr.classList.add("show"); }
+  else { btn.classList.remove("has-img"); btn.style.backgroundImage="none"; txt.textContent="📷 Subir foto"; clr.classList.remove("show"); }
+}
+async function onPrizeFile(i, input){
+  const f=input.files && input.files[0]; if(!f) return;
+  const txt=$("#cfgPrev"+i).querySelector(".pb-txt"); const prev=txt.textContent;
+  txt.textContent="Procesando…";
+  try{ const url=await fileToScaledDataUrl(f); setPrizePhoto(i, url); }
+  catch(e){ txt.textContent=prev; alert("No se pudo procesar la imagen. Prueba con otra foto (JPG o PNG)."); }
+  input.value="";
+}
 function openCfg(){
   const c=STATE.config;
   const pr = getPrizes();
   for(let i=0;i<3;i++){
     $("#cfgPrize"+(i+1)).value = pr[i] ? pr[i].name : "";
-    $("#cfgImg"+(i+1)).value   = pr[i] ? (pr[i].img||"") : "";
+    setPrizePhoto(i+1, pr[i] ? (pr[i].img||"") : "");
   }
   $("#cfgPrice").value=c.price;
   $("#cfgDate").value=c.date; $("#cfgBank").value=c.bank; $("#cfgMpLink").value=c.mpLink||""; $("#cfgPw").value=c.pw;
@@ -1257,12 +1306,6 @@ document.addEventListener("DOMContentLoaded", async ()=>{
   renderPublic();
   subscribeRealtime();
 
-  if(useSB()){
-    const n=document.createElement("p"); n.className="notice notice--sync";
-    n.innerHTML="🟢 Sincronizado en la nube — las compras se guardan y actualizan en tiempo real para todos.";
-    $("#comprar .wrap").prepend(n);
-  }
-
   $("#plus").onclick=()=>{ $("#fQty").value=(parseInt($("#fQty").value)||1)+1; updateTotal(); };
   $("#minus").onclick=()=>{ $("#fQty").value=Math.max(1,(parseInt($("#fQty").value)||1)-1); updateTotal(); };
   $("#fQty").oninput=updateTotal;
@@ -1296,6 +1339,10 @@ document.addEventListener("DOMContentLoaded", async ()=>{
   $("#resetContestBtn").onclick=resetContest;
   $("#closeCfg").onclick=()=>$("#cfgOverlay").classList.remove("show");
   $("#saveCfg").onclick=saveCfg;
+  for(let i=1;i<=3;i++){
+    $("#cfgFile"+i).addEventListener("change", e=>onPrizeFile(i, e.target));
+    $("#cfgClear"+i).onclick=()=>setPrizePhoto(i, "");
+  }
 
   document.querySelectorAll(".overlay").forEach(o=>o.addEventListener("click",e=>{ if(e.target===o) o.classList.remove("show"); }));
 });
