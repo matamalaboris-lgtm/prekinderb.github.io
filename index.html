@@ -1,0 +1,1167 @@
+<!-- Sorteo a beneficio - Prekínder B - Colegio Antuquenú, Puerto Montt -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sorteo Prekínder B · Colegio Antuquenú</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+
+<style>
+  :root{
+    --cream:#F3F1EB;
+    --cream-2:#EAE5DA;
+    --ink:#1B2430;
+    --ink-soft:#5E6873;
+    --sun:#D99B36;
+    --sun-deep:#B97A22;
+    --pine:#1F4E79;
+    --pine-deep:#143655;
+    --sky:#5C7FA3;
+    --coral:#C24A3C;
+    --gold:#E9C277;
+    --paper:#FFFFFF;
+    --line:#E2DCD0;
+    --line-soft:#EEEAE0;
+    --shadow:0 20px 44px -26px rgba(20,28,40,.30);
+    --shadow-md:0 14px 30px -20px rgba(20,28,40,.26);
+    --shadow-sm:0 6px 16px -12px rgba(20,28,40,.24);
+    --r:16px;
+    --r-lg:20px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:"Manrope",system-ui,sans-serif;
+    color:var(--ink);
+    background:var(--cream);
+    line-height:1.6;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  /* soft, intentional ambient glow — replaces muddy double-gradient */
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+    background:
+      radial-gradient(820px 460px at 92% -12%, rgba(31,78,121,.10), transparent 60%),
+      radial-gradient(640px 460px at -8% 4%, rgba(217,155,54,.06), transparent 58%);
+  }
+  h1,h2,h3,.display{font-family:"Sora",sans-serif;font-weight:700;letter-spacing:-.02em;line-height:1.05}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+  a{color:inherit}
+
+  .btn{
+    font-family:"Sora",sans-serif;font-weight:600;font-size:.98rem;letter-spacing:-.01em;
+    border:none;border-radius:12px;padding:14px 24px;cursor:pointer;
+    transition:transform .14s ease, box-shadow .2s ease, background .2s, border-color .2s;
+    display:inline-flex;align-items:center;gap:9px;text-decoration:none;white-space:nowrap;
+  }
+  .btn:active{transform:translateY(1px) scale(.99)}
+  .btn-sun{background:var(--sun);color:#fff;box-shadow:0 8px 18px -10px rgba(185,122,34,.6)}
+  .btn-sun:hover{background:var(--sun-deep);transform:translateY(-1px);box-shadow:0 12px 22px -10px rgba(185,122,34,.7)}
+  .btn-pine{background:var(--pine);color:#fff;box-shadow:0 8px 18px -10px rgba(20,54,85,.55)}
+  .btn-pine:hover{background:var(--pine-deep);transform:translateY(-1px)}
+  .btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--line);box-shadow:var(--shadow-sm)}
+  .btn-ghost:hover{border-color:var(--pine);background:#fff}
+  .btn-mp{background:#009EE3;color:#fff;box-shadow:0 12px 24px -12px rgba(0,158,227,.85), inset 0 1px 0 rgba(255,255,255,.3)}
+  .btn-mp:hover{background:#0089C7;transform:translateY(-1px);box-shadow:0 12px 22px -12px rgba(0,158,227,.7), inset 0 1px 0 rgba(255,255,255,.3)}
+  .btn-mp .mp-glyph{width:22px;height:22px;border-radius:50%;background:#FFE600;display:grid;place-items:center;flex:none}
+  .btn-mp .mp-glyph::before{content:"";width:11px;height:7px;border:2px solid #009EE3;border-top:none;border-radius:0 0 9px 9px}
+  .btn[disabled]{opacity:.5;cursor:not-allowed;transform:none}
+
+  /* ===== TOP BAR ===== */
+  .topbar{position:sticky;top:0;z-index:40;backdrop-filter:blur(12px) saturate(1.2);
+    background:rgba(243,241,235,.82);border-bottom:1px solid var(--line)}
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:70px}
+  .brand{display:flex;align-items:center;gap:13px;font-family:"Sora";font-weight:600;font-size:1.06rem}
+  .brand-logo{height:38px;width:auto;flex:none;display:block}
+  .logo-chip{flex:none;display:grid;place-items:center;background:#fff;border-radius:12px;padding:8px 12px;
+    box-shadow:0 8px 18px -10px rgba(0,0,0,.4)}
+  .logo-chip img{height:30px;width:auto;display:block}
+  .brand .b-lines{display:flex;flex-direction:column;line-height:1.1}
+  .brand small{font-family:"Manrope";font-weight:800;color:var(--pine);font-size:.7rem;letter-spacing:.09em;text-transform:uppercase}
+  .nav-links{display:flex;gap:4px;align-items:center}
+  .nav-links a{color:var(--ink-soft);text-decoration:none;font-weight:800;padding:9px 14px;border-radius:11px;font-size:.94rem;transition:.15s}
+  .nav-links a:hover{color:var(--pine-deep);background:rgba(30,107,88,.08)}
+  .nav-links a.admin-link{color:var(--ink-soft);font-weight:700}
+
+  /* ===== HERO ===== */
+  .hero{position:relative;padding:72px 0 40px}
+  .hero-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:54px;align-items:center}
+  .eyebrow{display:inline-flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--line);
+    padding:8px 16px;border-radius:999px;font-weight:800;font-size:.78rem;color:var(--pine);
+    text-transform:uppercase;letter-spacing:.08em;box-shadow:var(--shadow-sm)}
+  .eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--sun);box-shadow:0 0 0 4px rgba(217,155,54,.18)}
+  .hero h1{font-size:clamp(2.5rem,5.4vw,4.1rem);margin:20px 0 16px;font-weight:600}
+  .hero h1 .hl{color:var(--sun-deep);position:relative;white-space:nowrap}
+  .hero h1 .hl svg{position:absolute;left:-2%;right:-2%;bottom:-.18em;width:104%;height:.42em;z-index:-1}
+  .hero p.lead{font-size:1.2rem;color:var(--ink-soft);max-width:40ch;margin:0 0 30px;font-weight:600;line-height:1.6}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+  .hero-cta .mini-note{font-weight:800;font-size:.86rem;color:var(--ink-soft)}
+
+  .trust{margin-top:34px;display:flex;gap:0;background:#fff;border:1px solid var(--line);
+    border-radius:var(--r);box-shadow:var(--shadow-sm);overflow:hidden;max-width:520px}
+  .trust > div{flex:1;padding:16px 18px;text-align:left;position:relative}
+  .trust > div + div::before{content:"";position:absolute;left:0;top:18%;bottom:18%;width:1px;background:var(--line)}
+  .trust b{color:var(--pine-deep);font-family:"Sora";font-size:1.6rem;display:block;line-height:1.1}
+  .trust span{font-weight:800;font-size:.78rem;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.04em}
+
+  /* prize card in hero */
+  .hero-visual{position:relative}
+  .hero-visual::before{content:"";position:absolute;width:120%;height:120%;left:-10%;top:-10%;z-index:0;
+    background:radial-gradient(closest-side, rgba(31,78,121,.12), transparent 72%)}
+  .prize-card{position:relative;z-index:1;background:var(--paper);border-radius:var(--r-lg);padding:18px 18px 24px;
+    box-shadow:var(--shadow);border:1px solid var(--line);transition:transform .3s ease}
+  .prize-card:hover{transform:translateY(-3px)}
+  .prize-card .ribbon{position:absolute;top:-15px;right:24px;z-index:3;white-space:nowrap;
+    background:var(--pine);color:#fff;
+    font-family:"Sora";font-weight:600;padding:8px 18px;border-radius:999px;font-size:.82rem;letter-spacing:-.01em;
+    box-shadow:0 8px 16px -8px rgba(20,54,85,.6)}
+  .prize-photo{position:relative;height:212px;border-radius:18px;overflow:hidden;background-size:cover;background-position:center;
+    border:1px solid var(--line)}
+  .prize-photo:not(.has-img){
+    background:
+      repeating-linear-gradient(135deg, #ECEAE3 0 13px, #F4F2EC 13px 26px);
+    display:grid;place-items:center}
+  .prize-photo .ph-label{font-family:"SFMono-Regular",ui-monospace,Menlo,Consolas,monospace;
+    font-size:.74rem;letter-spacing:.04em;color:#8B9196;background:rgba(255,255,255,.8);
+    padding:6px 12px;border-radius:8px;border:1px dashed #C7CCD2}
+  .prize-body{padding:18px 8px 0}
+  .prize-body h3{font-size:.76rem;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-soft);margin:0 0 5px;font-family:"Manrope";font-weight:800}
+  .prize-body .prize-name{font-size:1.65rem;color:var(--pine-deep);margin:0 0 12px;line-height:1.12;min-height:1.1em}
+  #prizePhoto,#prizeName,#prizeRibbon{transition:opacity .35s ease}
+  .prize-dots{display:flex;gap:7px;margin:0 0 16px;min-height:7px}
+  .prize-dots i{width:7px;height:7px;border-radius:99px;background:var(--line);transition:width .25s ease, background .25s ease;display:block}
+  .prize-dots i.active{background:var(--sun);width:20px}
+  .cfg-prize{display:grid;grid-template-columns:1.25fr 1fr;gap:8px;margin-bottom:8px}
+  .prize-meta{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .prize-meta div{background:var(--cream);border-radius:14px;padding:12px 14px;border:1px solid var(--line-soft)}
+  .prize-meta span{display:block;font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);font-weight:800;margin-bottom:2px}
+  .prize-meta strong{font-family:"Sora";font-size:1.22rem;color:var(--ink);font-weight:600}
+
+  /* ===== SECTIONS ===== */
+  section.block{padding:58px 0}
+  .sec-head{text-align:center;max-width:620px;margin:0 auto 42px}
+  .sec-head .kicker{display:inline-block;font-weight:800;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sun-deep);margin-bottom:10px}
+  .sec-head h2{font-size:clamp(1.9rem,4vw,2.7rem);margin:0 0 10px}
+  .sec-head p{color:var(--ink-soft);font-weight:600;margin:0;font-size:1.08rem}
+
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;position:relative}
+  .step{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:28px 26px;box-shadow:var(--shadow-sm);
+    position:relative;transition:transform .2s ease, box-shadow .2s ease}
+  .step:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
+  .step .num{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;font-family:"Sora";
+    font-weight:700;font-size:1.3rem;color:#fff;background:var(--pine);margin-bottom:16px;
+    box-shadow:0 8px 16px -10px rgba(20,54,85,.5)}
+  .step:nth-child(2) .num{background:var(--sun);box-shadow:0 8px 16px -10px rgba(185,122,34,.5)}
+  .step:nth-child(3) .num{background:var(--sky);box-shadow:0 8px 16px -10px rgba(92,127,163,.5)}
+  .step h3{margin:0 0 8px;font-size:1.28rem}
+  .step p{margin:0;color:var(--ink-soft);font-weight:600;font-size:.98rem}
+
+  /* ===== BUY ===== */
+  .buy-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start}
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:30px;box-shadow:var(--shadow-md)}
+  .card h3{margin:0 0 20px;font-size:1.55rem}
+  label{display:block;font-weight:800;font-size:.84rem;margin:16px 0 7px;color:var(--ink)}
+  label:first-of-type{margin-top:0}
+  input,select{width:100%;font-family:"Manrope";font-size:1rem;font-weight:600;padding:13px 15px;
+    border:1.5px solid var(--line);border-radius:14px;background:var(--cream);color:var(--ink);transition:border .15s, box-shadow .15s}
+  input::placeholder{color:#B7AC97}
+  input:focus,select:focus{outline:none;border-color:var(--pine);background:#fff;box-shadow:0 0 0 4px rgba(31,78,121,.12)}
+  .qty-row{display:flex;align-items:center;gap:12px}
+  .qty-btn{width:48px;height:48px;flex:none;font-size:1.45rem;border-radius:14px;border:1.5px solid var(--line);
+    background:var(--cream);cursor:pointer;font-family:"Sora";color:var(--pine);line-height:1;transition:.15s;display:grid;place-items:center}
+  .qty-btn:hover{border-color:var(--pine);color:var(--pine);background:#fff}
+  .total-line{display:flex;justify-content:space-between;align-items:baseline;margin:22px 0 6px;
+    padding-top:18px;border-top:1.5px dashed var(--line)}
+  .total-line .t-lab{font-weight:800;color:var(--ink-soft)}
+  .total-line .t-val{font-family:"Sora";font-size:2rem;color:var(--pine-deep);font-weight:600}
+  .hint{font-size:.85rem;color:var(--ink-soft);font-weight:600;margin-top:7px}
+
+  /* live ticket preview */
+  .ticket-stack{position:sticky;top:92px}
+  .ticket{position:relative;background:linear-gradient(150deg,#fff,#FBFAF7);border:1px solid var(--line);
+    border-radius:22px;padding:26px;box-shadow:var(--shadow)}
+  .ticket::before,.ticket::after{content:"";position:absolute;width:30px;height:30px;border-radius:50%;
+    background:var(--cream);top:50%;transform:translateY(-50%);box-shadow:inset 0 0 0 1px var(--line)}
+  .ticket::before{left:-16px}.ticket::after{right:-16px}
+  .ticket .t-top{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1.5px dashed var(--line);padding-bottom:16px;gap:12px}
+  .ticket .t-org{font-family:"Sora";font-weight:600;color:var(--pine);font-size:1.05rem;line-height:1.15}
+  .ticket .t-org small{display:block;color:var(--ink-soft);font-family:"Manrope";font-weight:800;font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;margin-top:3px}
+  .ticket .t-tag{flex:none;white-space:nowrap;background:var(--sun);color:#fff;font-family:"Sora";font-weight:600;padding:5px 13px;border-radius:999px;font-size:.72rem;letter-spacing:.02em}
+  .ticket .t-number{text-align:center;padding:22px 0 8px;position:relative}
+  .ticket .t-number span{font-size:.72rem;text-transform:uppercase;letter-spacing:.16em;color:var(--ink-soft);font-weight:800}
+  .ticket .t-number b{display:block;font-family:"Sora";font-size:3.6rem;color:var(--pine-deep);letter-spacing:.04em;font-weight:700;line-height:1.05}
+  .ticket .t-foot{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-top:6px}
+  .ticket .t-holder{font-weight:800}
+  .ticket .t-holder small{display:block;color:var(--ink-soft);font-weight:800;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
+  .ticket canvas{border-radius:10px;display:block;background:#fff;padding:5px;border:1px solid var(--line)}
+  .ticket .t-code{font-family:"Sora";letter-spacing:.18em;color:var(--pine);font-size:1.1rem;font-weight:600}
+  .status-pill{display:inline-block;padding:4px 11px;border-radius:999px;font-weight:800;font-size:.7rem;text-transform:uppercase;letter-spacing:.05em}
+  .st-pending{background:#FFE7C2;color:#9A6B16}
+  .st-paid{background:#DCE8F3;color:var(--pine-deep)}
+
+  .pay-box{background:#F7F5EF;border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-top:20px}
+  .pay-box h4{margin:0 0 10px;font-family:"Sora";color:var(--sun-deep);font-size:1.08rem;font-weight:600;display:flex;align-items:center;gap:8px}
+  .pay-box dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:5px 12px;font-size:.93rem}
+  .pay-box dt{font-weight:800;color:var(--sun-deep)}
+  .pay-box dd{margin:0;font-weight:700;color:var(--ink)}
+  .pay-mp-note{display:flex;align-items:center;gap:10px;background:#E8F6FD;border:1px solid #B6E2F6;color:#0A5C82;
+    border-radius:12px;padding:10px 13px;font-weight:800;font-size:.86rem;margin-bottom:12px}
+  .pay-mp-note .mp-dot{width:24px;height:24px;border-radius:50%;background:#009EE3;flex:none;display:grid;place-items:center}
+  .pay-mp-note .mp-dot::before{content:"";width:11px;height:7px;border:2px solid #FFE600;border-top:none;border-radius:0 0 9px 9px}
+  .pay-or{text-align:center;font-weight:800;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin:6px 0 10px}
+  .confirm-note{background:#E8F6FD;border:1px solid #B6E2F6;color:#0A5C82;border-radius:14px;padding:13px 16px;font-weight:700;font-size:.92rem;line-height:1.5}
+  .confirm-note--bank{background:#FBF6EC;border-color:#EAD9B6;color:#7A571B}
+  .confirm-note .bank-list{margin:8px 0 6px;padding-left:18px}
+  .confirm-note .bank-list li{margin:2px 0;font-weight:800}
+
+  /* payment panel inside the generated-ticket modal */
+  .pay-panel{background:var(--cream);border:1px solid var(--line);border-radius:18px;padding:20px;margin-top:4px}
+  .pay-panel .pp-total{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px}
+  .pay-panel .pp-total span{font-weight:800;color:var(--ink-soft)}
+  .pay-panel .pp-total b{font-family:"Sora";font-weight:600;font-size:1.7rem;color:var(--pine-deep)}
+  .pay-panel .pp-transfer{margin-top:14px;font-size:.9rem}
+  .pay-panel .pp-transfer .pp-lab{font-weight:800;color:var(--ink-soft);margin-bottom:5px;font-size:.78rem;text-transform:uppercase;letter-spacing:.05em}
+  .pay-panel .pp-transfer ul{margin:0;padding-left:18px}
+  .pay-panel .pp-transfer li{font-weight:700;margin:2px 0}
+
+  .luck-note{text-align:center;margin-top:16px;font-weight:800;color:var(--pine);background:rgba(31,78,121,.06);
+    border-radius:12px;padding:12px 16px;font-size:.92rem}
+
+  /* lookup */
+  .lookup-row{display:flex;gap:10px;flex-wrap:wrap}
+  .lookup-row input{flex:1;min-width:200px}
+
+  /* ===== MODAL ===== */
+  .overlay{position:fixed;inset:0;background:rgba(42,38,32,.55);backdrop-filter:blur(5px);
+    display:none;align-items:center;justify-content:center;padding:20px;z-index:100}
+  .overlay.show{display:flex}
+  .modal{background:var(--paper);border-radius:20px;max-width:470px;width:100%;padding:32px;box-shadow:var(--shadow);
+    max-height:92vh;overflow:auto;position:relative;animation:pop .32s cubic-bezier(.34,1.4,.5,1)}
+  @keyframes pop{from{transform:scale(.92);opacity:0}}
+  .modal .x{position:absolute;top:18px;right:18px;width:38px;height:38px;border-radius:50%;border:none;
+    background:var(--cream);font-size:1.1rem;cursor:pointer;color:var(--ink-soft);transition:.15s;z-index:5}
+  .modal .x:hover{background:var(--cream-2);color:var(--ink)}
+  .modal h3{margin:0 0 5px;font-size:1.7rem;text-align:center}
+  .modal .sub{text-align:center;color:var(--ink-soft);font-weight:700;margin:0 0 22px}
+
+  /* ===== ADMIN ===== */
+  .admin{display:none}
+  .admin.show{display:block}
+  .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:26px}
+  .stat{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:20px;text-align:center;box-shadow:var(--shadow-sm)}
+  .stat b{display:block;font-family:"Sora";font-size:2.1rem;color:var(--pine-deep);font-weight:600}
+  .stat span{font-size:.76rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);font-weight:800}
+  table{width:100%;border-collapse:collapse;background:var(--paper);border-radius:16px;overflow:hidden;box-shadow:var(--shadow-sm)}
+  th,td{padding:12px 13px;text-align:left;font-size:.9rem;border-bottom:1px solid var(--line)}
+  th{background:var(--cream-2);font-family:"Sora";font-weight:500;color:var(--ink)}
+  tr:last-child td{border-bottom:none}
+  td .mini{padding:6px 13px;font-size:.82rem;border-radius:999px}
+  .draw-banner{position:relative;overflow:hidden;background:linear-gradient(150deg,var(--pine),var(--pine-deep));color:#fff;border-radius:var(--r);
+    padding:34px;text-align:center;margin-bottom:26px;box-shadow:var(--shadow-md)}
+  .draw-banner::after{content:"";position:absolute;width:340px;height:340px;right:-90px;top:-150px;border-radius:50%;
+    background:radial-gradient(closest-side, rgba(255,210,122,.22), transparent 70%)}
+  .draw-banner h3{color:#fff;font-size:1.6rem;margin:0 0 6px}
+  .draw-banner .winner-num{font-family:"Sora";font-size:3.6rem;color:var(--gold);margin:8px 0;font-weight:600;letter-spacing:.04em}
+  .winner-row{position:relative;padding:14px 0;border-top:1px solid rgba(255,255,255,.16)}
+  .winner-row:first-child{border-top:none}
+  .winner-row .winner-num{font-size:2.6rem;margin:4px 0}
+  .winner-rank{display:inline-block;background:rgba(255,255,255,.16);color:#fff;font-family:"Sora";font-weight:600;font-size:.76rem;padding:4px 13px;border-radius:999px;letter-spacing:.03em}
+  .winner-prize{margin:3px 0 0;font-weight:800;color:var(--gold)}
+  .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;align-items:center}
+  .toolbar input{width:auto;flex:1;min-width:180px}
+
+  footer{position:relative;background:var(--pine-deep);color:#EAD9BE;padding:42px 0;margin-top:48px;overflow:hidden}
+  footer::before{content:"";position:absolute;left:0;right:0;top:0;height:5px;
+    background:linear-gradient(90deg,var(--pine),var(--sun))}
+  footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center}
+  footer a{color:var(--gold);cursor:pointer;font-weight:800;text-decoration:none}
+  footer a:hover{text-decoration:underline}
+
+  .notice{background:#FFE9C7;border:1px solid var(--sun);color:#8a5b12;padding:12px 16px;border-radius:14px;
+    font-weight:700;font-size:.86rem;margin:0 auto 18px;max-width:780px;text-align:center}
+
+  @media(max-width:880px){
+    .hero{padding:48px 0 24px}
+    .hero-grid,.buy-grid{grid-template-columns:1fr}
+    .hero-visual{max-width:440px;margin:8px auto 0}
+    .steps{grid-template-columns:1fr}
+    .stat-grid{grid-template-columns:1fr 1fr}
+    .ticket-stack{position:static}
+    .nav-links a:not(.admin-link){display:none}
+    .trust{max-width:none}
+    table{font-size:.82rem}
+    th,td{padding:9px}
+  }
+  @media print{
+    body *{visibility:hidden}
+    #printArea,#printArea *{visibility:visible}
+    #printArea{position:absolute;left:0;top:0;width:100%}
+    .modal .x,.modal .btn{display:none}
+  }
+</style>
+
+<!-- ===================== TOP BAR ===================== -->
+<div class="topbar">
+  <div class="wrap">
+    <div class="brand">
+      <img class="brand-logo" src="assets/logo-antuquenu.png" alt="Colegio Antuquenú" />
+      <span class="b-lines">Prekínder B
+        <small>Colegio Antuquenú</small>
+      </span>
+    </div>
+    <nav class="nav-links">
+      <a href="#como">Cómo participar</a>
+      <a href="#comprar">Comprar ticket</a>
+      <a href="#buscar">Mi ticket</a>
+      <a class="admin-link" id="adminToggle">🔒 Organizadores</a>
+    </nav>
+  </div>
+</div>
+
+<!-- ===================== PUBLIC SITE ===================== -->
+<div id="publicSite">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow"><span class="dot"></span> Sorteo a beneficio del curso</span>
+        <h1>Compra tu ticket y ayuda al <span class="hl">Prekínder&nbsp;B<svg viewBox="0 0 200 16" preserveAspectRatio="none"><path d="M2 11 C 50 4, 150 4, 198 9" stroke="rgba(240,160,62,.5)" stroke-width="8" stroke-linecap="round" fill="none"/></svg></span></h1>
+        <p class="lead">Cada ticket apoya las actividades de nuestro curso… ¡y te da la oportunidad de ganar un gran premio!</p>
+        <div class="hero-cta">
+          <a href="#comprar" class="btn btn-sun">Comprar mi ticket →</a>
+          <a href="#como" class="btn btn-ghost">¿Cómo funciona?</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="prize-card">
+          <span class="ribbon" id="prizeRibbon">¡Gran premio!</span>
+          <div class="prize-photo" id="prizePhoto"><span class="ph-label">foto del premio</span></div>
+          <div class="prize-body">
+            <h3 id="prizeKicker">El ganador se lleva</h3>
+            <p class="prize-name" id="prizeName">—</p>
+            <div class="prize-dots" id="prizeDots"></div>
+            <div class="prize-meta">
+              <div><span>Valor ticket</span><strong id="prizePrice">—</strong></div>
+              <div><span>Sorteo</span><strong id="prizeDate">—</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- HOW IT WORKS -->
+  <section class="block" id="como">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">Participar es muy fácil</span>
+        <h2>Tu número en tres pasos</h2>
+        <p>Completa, paga y recibe tu ticket digital para el sorteo final.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="num">1</div>
+          <h3>Completa tus datos</h3>
+          <p>Indica tu nombre, contacto y cuántos tickets quieres comprar.</p>
+        </div>
+        <div class="step">
+          <div class="num">2</div>
+          <h3>Realiza el pago</h3>
+          <p>Paga con Mercado Pago o por transferencia con los datos que aparecen al comprar. Tu ticket queda registrado al instante.</p>
+        </div>
+        <div class="step">
+          <div class="num">3</div>
+          <h3>Recibe tu número único</h3>
+          <p>Te entregamos un ticket digital con un número y código únicos que participa en el sorteo final.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BUY -->
+  <section class="block" id="comprar">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">Comprar ticket</span>
+        <h2>Genera tu número de la suerte</h2>
+        <p>Un número único por cada ticket, a beneficio del Prekínder B.</p>
+      </div>
+      <div class="buy-grid">
+        <!-- FORM -->
+        <div class="card">
+          <h3>Tus datos</h3>
+          <label for="fName">Nombre y apellido</label>
+          <input id="fName" type="text" placeholder="Ej: María Pérez" />
+          <label for="fContact">Teléfono o correo</label>
+          <input id="fContact" type="text" placeholder="+56 9 1234 5678 / correo@mail.com" />
+          <label for="fStudent">Apoderado/a de (alumno/a) <span style="font-weight:600;color:var(--ink-soft)">— opcional</span></label>
+          <input id="fStudent" type="text" placeholder="Nombre del niño/a del curso" />
+
+          <label>Cantidad de tickets</label>
+          <div class="qty-row">
+            <button class="qty-btn" id="minus" type="button">−</button>
+            <input id="fQty" type="number" min="1" max="50" value="1" style="text-align:center" />
+            <button class="qty-btn" id="plus" type="button">+</button>
+          </div>
+
+          <div class="total-line">
+            <span class="t-lab">Total a pagar</span>
+            <span class="t-val" id="totalVal">$0</span>
+          </div>
+          <p class="hint">Pagarás por Mercado Pago y luego se generará un número único por cada ticket.</p>
+
+          <div class="pay-box">
+            <h4>💳 Cómo pagar</h4>
+            <div id="payMethods"></div>
+            <dl id="payInfo" style="display:none"></dl>
+            <p class="hint" style="margin-bottom:0">El ticket se genera al confirmar tu pago. ¡Guarda tu número!</p>
+          </div>
+
+          <!-- STEP 1: choose payment method -->
+          <div id="payStep">
+            <button class="btn btn-mp" id="payBtn" style="width:100%;justify-content:center;margin-top:16px">
+              <span class="mp-glyph"></span> Pagar <span id="payAmt">$0</span> con Mercado Pago
+            </button>
+            <button class="btn btn-pine" id="transferBtn" style="width:100%;justify-content:center;margin-top:10px">
+              🏦 Pagar por transferencia
+            </button>
+            <p class="hint" id="noPayHint" style="display:none;text-align:center;color:var(--coral);margin-top:10px">
+              El organizador aún no ha configurado un medio de pago.
+            </p>
+          </div>
+
+          <!-- STEP 2: confirm after paying -->
+          <div id="confirmStep" style="display:none;margin-top:16px">
+            <div id="confirmInfo"></div>
+            <button class="btn btn-sun" id="confirmBuyBtn" style="width:100%;justify-content:center;margin-top:12px">✓  generar mi ticket</button>
+            <div style="display:flex;gap:10px;margin-top:10px">
+              <button class="btn btn-ghost" id="reopenPayBtn" style="flex:1;justify-content:center">Abrir el pago otra vez</button>
+              <button class="btn btn-ghost" id="cancelPayBtn" style="flex:1;justify-content:center">Volver</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- LIVE PREVIEW -->
+        <div class="ticket-stack">
+          <div class="ticket" id="previewTicket">
+            <div class="t-top">
+              <div class="t-org">Sorteo Prekínder B
+                <small>Colegio Antuquenú · Pto. Montt</small>
+              </div>
+              <span class="t-tag">VISTA PREVIA</span>
+            </div>
+            <div class="t-number">
+              <span>Tu número será</span>
+              <b id="pvNumber">0000</b>
+            </div>
+            <div class="t-foot">
+              <div class="t-holder" id="pvName">— Tu nombre —
+                <small>Portador del ticket</small>
+              </div>
+              <div style="text-align:center">
+                <div class="t-code" id="pvCode">····</div>
+                <small style="color:var(--ink-soft);font-weight:800">código</small>
+              </div>
+            </div>
+          </div>
+          <p class="luck-note">🍀 Mientras más tickets, ¡más chances de ganar y más ayuda para el curso!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOOKUP -->
+  <section class="block" id="buscar">
+    <div class="wrap" style="max-width:720px">
+      <div class="sec-head">
+        <span class="kicker">Mi ticket</span>
+        <h2>Consulta tu número</h2>
+        <p>¿Ya compraste? Revisa el estado de tu ticket con tu código.</p>
+      </div>
+      <div class="card">
+        <div class="lookup-row">
+          <input id="lookupCode" type="text" placeholder="Ingresa tu código (ej: 12-A4F9)" />
+          <button class="btn btn-pine" id="lookupBtn">Buscar</button>
+        </div>
+        <div id="lookupResult" style="margin-top:18px"></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ===================== ADMIN ===================== -->
+<section class="block admin" id="adminPanel">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kicker">Solo organizadores</span>
+      <h2>Panel del curso</h2>
+      <p>Confirma pagos, revisa la recaudación y realiza el sorteo final.</p>
+    </div>
+
+    <div class="draw-banner" id="drawBanner">
+      <h3>🎉 Sorteo final</h3>
+      <p id="drawSub" style="margin:0;opacity:.92;position:relative">Sortea un ganador a la vez — una vez por cada premio, entre los tickets <b>pagados</b>.</p>
+      <div id="winnerBox" style="position:relative"></div>
+      <div style="margin-top:16px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;position:relative">
+        <button class="btn btn-sun" id="drawBtn">🎰 Realizar sorteo</button>
+        <button class="btn btn-ghost" id="resetDrawBtn" style="color:#fff;border-color:rgba(255,255,255,.4);background:rgba(255,255,255,.08)">Reiniciar ganadores</button>
+      </div>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat"><b id="stTotal">0</b><span>Tickets totales</span></div>
+      <div class="stat"><b id="stPaid">0</b><span>Pagados</span></div>
+      <div class="stat"><b id="stPending">0</b><span>Pendientes</span></div>
+      <div class="stat"><b id="stMoney">$0</b><span>Recaudado</span></div>
+    </div>
+
+    <div class="toolbar">
+      <input id="searchAdmin" type="text" placeholder="🔎 Buscar por número, nombre o código…" />
+      <button class="btn btn-ghost" id="exportBtn">⬇ Exportar CSV</button>
+      <button class="btn btn-pine" id="configBtn">⚙ Configurar sorteo</button>
+      <button class="btn btn-ghost" id="resetContestBtn" style="color:var(--coral);border-color:#E8C4BE">🗑 Reiniciar concurso</button>
+    </div>
+
+    <div style="overflow-x:auto">
+      <table id="ticketsTable">
+        <thead>
+          <tr><th>N°</th><th>Código</th><th>Nombre</th><th>Contacto</th><th>Fecha</th><th>Estado</th><th></th></tr>
+        </thead>
+        <tbody id="ticketsBody"></tbody>
+      </table>
+    </div>
+    <p class="hint" style="margin-top:14px">Consejo: marca como <b>pagado</b> solo cuando hayas verificado la transferencia. El sorteo solo considera tickets pagados.</p>
+  </div>
+</section>
+
+<!-- ===================== MODALS ===================== -->
+<div class="overlay" id="ticketOverlay">
+  <div class="modal" id="printArea">
+    <button class="x" id="closeTicket">✕</button>
+    <h3>¡Ticket generado! 🎟️</h3>
+    <p class="sub">Guárdalo o tómale una captura</p>
+    <div id="ticketContainer"></div>
+    <button class="btn btn-pine" id="printTicketBtn" style="width:100%;justify-content:center;margin-top:18px">🖨 Imprimir / Guardar PDF</button>
+    <button class="btn btn-ghost" id="newBuyBtn" style="width:100%;justify-content:center;margin-top:10px">Comprar otro</button>
+  </div>
+</div>
+
+<div class="overlay" id="pwOverlay">
+  <div class="modal" style="max-width:390px">
+    <button class="x" id="closePw">✕</button>
+    <h3>Acceso organizadores</h3>
+    <p class="sub">Ingresa la clave del curso</p>
+    <input id="pwInput" type="password" placeholder="Clave" />
+    <button class="btn btn-pine" id="pwBtn" style="width:100%;justify-content:center;margin-top:16px">Entrar</button>
+    <p class="hint" id="pwError" style="text-align:center;color:var(--coral);display:none">Clave incorrecta</p>
+  </div>
+</div>
+
+<div class="overlay" id="cfgOverlay">
+  <div class="modal">
+    <button class="x" id="closeCfg">✕</button>
+    <h3>Configurar sorteo</h3>
+    <p class="sub">Estos datos se muestran en toda la página</p>
+    <label>Premios del sorteo</label>
+    <p class="hint" style="margin-top:0">Agrega hasta 3 premios. La tarjeta los muestra rotando en orden aleatorio.</p>
+    <div class="cfg-prize"><input id="cfgPrize1" type="text" placeholder="1er premio — nombre" /><input id="cfgImg1" type="text" placeholder="Foto URL (opcional)" /></div>
+    <div class="cfg-prize"><input id="cfgPrize2" type="text" placeholder="2º premio — nombre (opcional)" /><input id="cfgImg2" type="text" placeholder="Foto URL (opcional)" /></div>
+    <div class="cfg-prize"><input id="cfgPrize3" type="text" placeholder="3er premio — nombre (opcional)" /><input id="cfgImg3" type="text" placeholder="Foto URL (opcional)" /></div>
+    <label>Valor por ticket (CLP)</label>
+    <input id="cfgPrice" type="number" min="0" />
+    <label>Fecha del sorteo</label>
+    <input id="cfgDate" type="text" placeholder="Ej: 15 de agosto" />
+    <label>Datos de transferencia (uno por línea)</label>
+    <input id="cfgBank" type="text" placeholder="Banco · Cuenta · RUT · Nombre · Correo" />
+    <p class="hint">Formato sugerido: «Banco Estado | Cuenta Vista 12345678 | RUT 11.111.111-1 | Curso PreK B | <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="97f4f8e5e5f2f8d7faf6fefbb9f4f8fa">[email&#160;protected]</a>» separando cada dato con « | ».</p>
+    <label>Link de pago Mercado Pago <span style="font-weight:600;color:var(--ink-soft)">— opcional</span></label>
+    <input id="cfgMpLink" type="text" placeholder="https://mpago.la/xxxxx" />
+    <p class="hint">Crea un «Link de pago» en tu cuenta Mercado Pago (idealmente de «monto libre») y pégalo aquí. Aparecerá un botón para pagar al generar el ticket.</p>
+    <label>Clave de organizadores</label>
+    <input id="cfgPw" type="text" />
+    <button class="btn btn-sun" id="saveCfg" style="width:100%;justify-content:center;margin-top:18px">Guardar cambios</button>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="brand" style="color:var(--gold)">
+      <span class="logo-chip"><img src="assets/logo-antuquenu.png" alt="Colegio Antuquenú" /></span>
+      <span class="b-lines" style="color:#EAD9BE">Sorteo Prekínder B
+        <small style="color:var(--gold)">Colegio Antuquenú · Puerto Montt</small>
+      </span>
+    </div>
+    <div style="text-align:right;font-size:.9rem">
+      <p style="margin:0 0 6px">Hecho con 🧡 por los apoderados del curso</p>
+      <a id="footerAdmin">Acceso organizadores</a>
+    </div>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+/* ============ STORAGE (compatible claude.ai con respaldo en memoria) ============ */
+const hasStore = typeof window !== "undefined" && window.storage && typeof window.storage.get === "function";
+let memCache = {};
+async function sGet(key){
+  if(!hasStore){ return memCache[key] ?? null; }
+  try{ const r = await window.storage.get(key, true); return r ? r.value : null; }
+  catch(e){ return null; }
+}
+async function sSet(key,val){
+  if(!hasStore){ memCache[key]=val; return true; }
+  try{ await window.storage.set(key, val, true); return true; }
+  catch(e){ return false; }
+}
+
+/* ============ STATE ============ */
+const DEFAULT_STATE = {
+  config:{
+    prize:"Caja de productos + sorpresas del curso 🎁",
+    prizeImg:"",
+    prizes:[{name:"Caja de productos + sorpresas del curso 🎁", img:""}],
+    price:2000,
+    date:"Por definir",
+    bank:"Banco : BANCO ESTADO | Tipo de cuenta : Cuenta RUT | N° de cuenta: 18204203-K | Nombre: BORIS MATAMALA",
+    mpLink:"",
+    pw:"antu2026"
+  },
+  nextNumber:1,
+  tickets:[],
+  winners:[],
+  winner:null
+};
+let STATE = null;
+
+async function loadState(){
+  const raw = await sGet("raffle:state");
+  if(raw){
+    try{ STATE = typeof raw === "string" ? JSON.parse(raw) : raw; }
+    catch(e){ STATE = structuredClone(DEFAULT_STATE); }
+  } else {
+    STATE = structuredClone(DEFAULT_STATE);
+    await saveState();
+  }
+  // sanity
+  STATE.config = Object.assign({}, DEFAULT_STATE.config, STATE.config||{});
+  // migrate single prize -> prizes[] if needed
+  if(!Array.isArray(STATE.config.prizes) || !STATE.config.prizes.length){
+    STATE.config.prizes = [{name:STATE.config.prize||"", img:STATE.config.prizeImg||""}];
+  }
+  // upgrade the old placeholder bank default to the configured details
+  if(STATE.config.bank === "Banco | Tipo de cuenta | N° de cuenta | RUT | Nombre | correo"){
+    STATE.config.bank = DEFAULT_STATE.config.bank;
+  }
+  STATE.tickets = STATE.tickets||[];
+  STATE.nextNumber = STATE.nextNumber||1;
+  // winners array (migra desde winner único si existe)
+  if(!Array.isArray(STATE.winners)){
+    STATE.winners = STATE.winner ? [{rank:0, prizeName:(getPrizes()[0]||{}).name||"", number:STATE.winner.number, name:STATE.winner.name, code:STATE.winner.code}] : [];
+  }
+}
+async function saveState(){ await sSet("raffle:state", JSON.stringify(STATE)); }
+
+/* ============ HELPERS ============ */
+const $ = s => document.querySelector(s);
+const fmt = n => "$" + (Number(n)||0).toLocaleString("es-CL");
+const pad = n => String(n).padStart(4,"0");
+function randCode(){
+  const c = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  let s=""; for(let i=0;i<4;i++) s+=c[Math.floor(Math.random()*c.length)];
+  return s;
+}
+function escapeHtml(s){ return String(s||"").replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m])); }
+
+/* ============ RENDER PUBLIC ============ */
+function getPrizes(){
+  const c = STATE.config;
+  if(Array.isArray(c.prizes) && c.prizes.length){
+    const list = c.prizes.filter(p=>p && (p.name||"").trim());
+    if(list.length) return list.map(p=>({name:p.name.trim(), img:(p.img||"").trim()}));
+  }
+  return [{name:c.prize||"—", img:(c.prizeImg||"").trim()}];
+}
+function shuffleIdx(n, avoidFirst){
+  const a = [...Array(n).keys()];
+  for(let k=a.length-1;k>0;k--){ const j=Math.floor(Math.random()*(k+1)); [a[k],a[j]]=[a[j],a[k]]; }
+  if(avoidFirst!=null && a.length>1 && a[0]===avoidFirst){ [a[0],a[1]]=[a[1],a[0]]; }
+  return a;
+}
+const RANKS = ["1er premio","2º premio","3er premio","4º premio","5º premio"];
+let prizeTimer=null, lastPrizeSig="", prizeFirstPaint=true, drawing=false;
+function renderPrizeDots(n){
+  const d = $("#prizeDots");
+  d.innerHTML = n>1 ? Array.from({length:n},()=>"<i></i>").join("") : "";
+}
+function setActiveDot(idx){
+  const dots = $("#prizeDots").children;
+  for(let i=0;i<dots.length;i++) dots[i].classList.toggle("active", i===idx);
+}
+function paintPrize(prizes, idx){
+  const p = prizes[idx] || prizes[0]; if(!p) return;
+  const ph=$("#prizePhoto"), nm=$("#prizeName"), rb=$("#prizeRibbon"), kc=$("#prizeKicker");
+  const apply=()=>{
+    if(p.img){ ph.style.backgroundImage=`url("${p.img.replace(/"/g,'&quot;')}")`; ph.classList.add("has-img"); ph.innerHTML=""; }
+    else { ph.style.backgroundImage="none"; ph.classList.remove("has-img"); ph.innerHTML='<span class="ph-label">foto del premio</span>'; }
+    nm.textContent = p.name;
+    rb.textContent = prizes.length>1 ? RANKS[idx] : "¡Gran premio!";
+    kc.textContent = prizes.length>1 ? "Uno de los premios" : "El ganador se lleva";
+    setActiveDot(idx);
+    ph.style.opacity=1; nm.style.opacity=1; rb.style.opacity=1;
+  };
+  if(prizeFirstPaint){ prizeFirstPaint=false; apply(); return; }
+  ph.style.opacity=0; nm.style.opacity=0; rb.style.opacity=0;
+  setTimeout(apply, 240);
+}
+function startPrizeCycle(){
+  const prizes = getPrizes();
+  const sig = JSON.stringify(prizes);
+  if(sig===lastPrizeSig && prizeTimer!==null) return; // already cycling this set
+  lastPrizeSig = sig;
+  if(prizeTimer){ clearInterval(prizeTimer); prizeTimer=null; }
+  prizeFirstPaint = true;
+  renderPrizeDots(prizes.length);
+  let order = shuffleIdx(prizes.length);
+  let i = 0;
+  paintPrize(prizes, order[0]);
+  if(prizes.length < 2) return;
+  prizeTimer = setInterval(()=>{
+    i++;
+    if(i >= order.length){ order = shuffleIdx(prizes.length, order[order.length-1]); i=0; }
+    paintPrize(prizes, order[i]);
+  }, 3600);
+}
+function renderPublic(){
+  const c = STATE.config;
+  $("#prizePrice").textContent = fmt(c.price);
+  $("#prizeDate").textContent = c.date;
+  startPrizeCycle();
+  const sold = STATE.tickets.length;
+  const paid = STATE.tickets.filter(t=>t.status==="paid").length;
+  $("#pvNumber").textContent = pad(STATE.nextNumber);
+  // pay info
+  const parts = (c.bank||"").split("|").map(x=>x.trim()).filter(Boolean);
+  $("#payInfo").innerHTML = parts.length
+    ? parts.map(p=>`<dt>•</dt><dd>${escapeHtml(p)}</dd>`).join("")
+    : `<dt>•</dt><dd>Configura los datos de pago en el panel de organizadores.</dd>`;
+  // payment methods (Mercado Pago and/or bank transfer)
+  const hasMp = !!c.mpLink, hasBank = bankParts().length>0;
+  const methods = [];
+  if(hasMp) methods.push("Mercado Pago");
+  if(hasBank) methods.push("transferencia");
+  const pm = $("#payMethods");
+  pm.innerHTML = methods.length
+    ? `<div class="pay-mp-note"><span class="mp-dot"></span>Paga con ${methods.join(" o ")}. Tu ticket se genera al confirmar el pago.</div>`
+    : "";
+  // gate the method buttons by what's configured
+  const payBtn = $("#payBtn"), tBtn = $("#transferBtn"), noHint = $("#noPayHint");
+  if(payBtn) payBtn.style.display = hasMp ? "" : "none";
+  if(tBtn) tBtn.style.display = hasBank ? "" : "none";
+  if(noHint) noHint.style.display = (hasMp||hasBank) ? "none" : "block";
+  updateTotal();
+}
+function updateTotal(){
+  let q = parseInt($("#fQty").value)||1;
+  q = Math.max(1, Math.min(50, q));
+  $("#fQty").value = q;
+  $("#totalVal").textContent = fmt(q * STATE.config.price);
+  const amt = $("#payAmt"); if(amt) amt.textContent = fmt(q * STATE.config.price);
+  $("#pvName").firstChild.textContent = ($("#fName").value.trim() || "— Tu nombre —");
+}
+
+/* ============ BUY ============ */
+async function buyTickets(){
+  const name = $("#fName").value.trim();
+  const contact = $("#fContact").value.trim();
+  const student = $("#fStudent").value.trim();
+  let qty = Math.max(1, Math.min(50, parseInt($("#fQty").value)||1));
+  if(!name){ alert("Por favor ingresa tu nombre."); $("#fName").focus(); return; }
+  if(!contact){ alert("Por favor ingresa un teléfono o correo de contacto."); $("#fContact").focus(); return; }
+
+  $("#confirmBuyBtn").disabled = true;
+  await loadState(); // refrescar para evitar números duplicados
+
+  const created = [];
+  const stamp = new Date().toISOString();
+  for(let i=0;i<qty;i++){
+    const num = STATE.nextNumber++;
+    const t = {
+      number:num,
+      code: pad(num).slice(-2) + "-" + randCode(),
+      name, contact, student,
+      status:"pending",
+      method: currentPayMethod,
+      price: STATE.config.price,
+      createdAt: stamp
+    };
+    STATE.tickets.push(t);
+    created.push(t);
+  }
+  await saveState();
+  $("#confirmBuyBtn").disabled = false;
+  resetPayFlow();
+  renderPublic();
+  showTickets(created);
+}
+
+function resetPayFlow(){
+  $("#confirmStep").style.display = "none";
+  $("#payStep").style.display = "";
+}
+function openPayLink(){
+  const url = STATE.config.mpLink;
+  if(url) window.open(url, "_blank", "noopener");
+}
+function bankParts(){
+  return (STATE.config.bank||"").split("|").map(x=>x.trim()).filter(Boolean);
+}
+function validateBuyer(){
+  const name = $("#fName").value.trim();
+  const contact = $("#fContact").value.trim();
+  if(!name){ alert("Por favor ingresa tu nombre."); $("#fName").focus(); return false; }
+  if(!contact){ alert("Por favor ingresa un teléfono o correo de contacto."); $("#fContact").focus(); return false; }
+  return true;
+}
+let currentPayMethod = "mp";
+function buyTotal(){
+  const q = Math.max(1, Math.min(50, parseInt($("#fQty").value)||1));
+  return q * STATE.config.price;
+}
+function goConfirm(method){
+  currentPayMethod = method;
+  const info = $("#confirmInfo");
+  if(method === "mp"){
+    info.innerHTML = `<div class="confirm-note"><b>Completa el pago</b> en la pestaña de Mercado Pago que se abrió. Cuando termines, genera tu ticket aquí abajo.</div>`;
+    $("#reopenPayBtn").style.display = "";
+  } else {
+    const parts = bankParts();
+    info.innerHTML = `<div class="confirm-note confirm-note--bank"><b>Transfiere ${fmt(buyTotal())}</b> a estos datos y luego genera tu ticket:
+      <ul class="bank-list">${parts.map(p=>`<li>${escapeHtml(p)}</li>`).join("")}</ul>
+      Envía el comprobante a los organizadores indicando tu número de ticket.</div>`;
+    $("#reopenPayBtn").style.display = "none";
+  }
+  $("#payStep").style.display = "none";
+  $("#confirmStep").style.display = "block";
+}
+function payMP(){
+  if(!STATE.config.mpLink){ alert("El organizador aún no ha configurado el link de pago de Mercado Pago."); return; }
+  if(!validateBuyer()) return;
+  openPayLink();
+  goConfirm("mp");
+}
+function payTransfer(){
+  if(!bankParts().length){ alert("El organizador aún no ha configurado los datos de transferencia."); return; }
+  if(!validateBuyer()) return;
+  goConfirm("transfer");
+}
+
+/* ============ TICKET RENDER (modal) ============ */
+function ticketHtml(t){
+  const c = STATE.config;
+  const id = "qr_"+t.number;
+  setTimeout(()=>{ try{ new QRious({element:document.getElementById(id),value:`ANTU-${pad(t.number)}-${t.code}`,size:84,foreground:"#1F6E5C",background:"#ffffff",level:"M"}); }catch(e){} },10);
+  return `
+  <div class="ticket" style="margin-bottom:16px">
+    <div class="t-top">
+      <div class="t-org">Sorteo Prekínder B<small>Colegio Antuquenú · Pto. Montt</small></div>
+      <span class="status-pill ${t.status==="paid"?"st-paid":"st-pending"}">${t.status==="paid"?"Pagado":"Por pagar"}</span>
+    </div>
+    <div class="t-number"><span>Tu número de la suerte</span><b>${pad(t.number)}</b></div>
+    <div class="t-foot">
+      <div class="t-holder">${escapeHtml(t.name)}<small>${escapeHtml(t.student?("Apoderado/a de "+t.student):"Portador del ticket")}</small>
+        <div style="margin-top:8px" class="t-code">${escapeHtml(t.code)}</div>
+        <small style="color:var(--ink-soft);font-weight:800">guarda este código</small>
+      </div>
+      <canvas id="${id}"></canvas>
+    </div>
+    <p style="text-align:center;margin:14px 0 0;font-weight:700;color:var(--ink-soft);font-size:.84rem">${getPrizes().length>1?"Premios":"Premio"}: ${escapeHtml(getPrizes().map(p=>p.name).join(" · "))} · Sorteo: ${escapeHtml(c.date)}</p>
+  </div>`;
+}
+function showTickets(list){
+  const total = list.reduce((a,t)=>a+(t.price||0),0);
+  const nums = list.map(t=>pad(t.number)).join(", ");
+  $("#ticketContainer").innerHTML = list.map(ticketHtml).join("") + verifyingNoteHtml(total, nums, currentPayMethod);
+  $("#ticketOverlay").classList.add("show");
+}
+function verifyingNoteHtml(total, nums, method){
+  const label = method==="transfer" ? "Transferencia registrada" : "Pago por Mercado Pago registrado";
+  return `
+  <div class="pay-panel" style="background:#EAF7F0;border-color:#BFE5D4">
+    <p style="margin:0;font-weight:800;color:var(--pine-deep);text-align:center;font-size:1.02rem">✓ ${label}</p>
+    ${total!=null?`<p class="hint" style="text-align:center;margin:6px 0 0">Total: <b>${fmt(total)}</b>${nums?` · N° ${escapeHtml(nums)}`:""}</p>`:""}
+    <p class="hint" style="text-align:center;margin:8px 0 0">El equipo del curso confirmará tu ticket apenas verifique el pago. ¡Guarda tu número y código!</p>
+  </div>`;
+}
+
+/* ============ LOOKUP ============ */
+function lookup(){
+  const q = $("#lookupCode").value.trim().toUpperCase();
+  const box = $("#lookupResult");
+  if(!q){ box.innerHTML=""; return; }
+  const t = STATE.tickets.find(x=>x.code.toUpperCase()===q || pad(x.number)===q);
+  if(!t){ box.innerHTML = `<p class="notice" style="margin:0">No encontramos ese código. Revisa que esté bien escrito.</p>`; return; }
+  const winEntry = (STATE.winners||[]).find(w=>w.number===t.number);
+  const won = !!winEntry;
+  const payBlock = (t.status!=="paid" && !won)
+    ? `<div style="margin-top:14px">${verifyingNoteHtml(t.price||STATE.config.price, pad(t.number), t.method)}</div>`
+    : "";
+  box.innerHTML = `
+    <div class="ticket">
+      <div class="t-top"><div class="t-org">Ticket N° ${pad(t.number)}</div>
+      <span class="status-pill ${t.status==="paid"?"st-paid":"st-pending"}">${t.status==="paid"?"Pagado ✓":"Por pagar"}</span></div>
+      <div class="t-number"><span>Portador</span><b style="font-size:1.7rem;color:var(--pine-deep)">${escapeHtml(t.name)}</b></div>
+      ${won?`<p style="text-align:center;color:var(--sun-deep);font-family:'Sora';font-size:1.3rem;font-weight:700;margin:6px 0">🏆 ¡Ganaste${winEntry.prizeName?": "+escapeHtml(winEntry.prizeName):""}!</p>`:""}
+      <p style="text-align:center;margin:6px 0 0;color:var(--ink-soft);font-weight:700">Código ${escapeHtml(t.code)}</p>
+    </div>
+    ${payBlock}`;
+}
+
+/* ============ ADMIN ============ */
+function renderAdmin(){
+  const tk = STATE.tickets;
+  const paid = tk.filter(t=>t.status==="paid");
+  $("#stTotal").textContent = tk.length;
+  $("#stPaid").textContent = paid.length;
+  $("#stPending").textContent = tk.length - paid.length;
+  $("#stMoney").textContent = fmt(paid.reduce((a,t)=>a+(t.price||0),0));
+  const q = ($("#searchAdmin").value||"").toLowerCase();
+  const rows = tk.slice().sort((a,b)=>b.number-a.number).filter(t=>{
+    if(!q) return true;
+    return pad(t.number).includes(q)||t.code.toLowerCase().includes(q)||(t.name||"").toLowerCase().includes(q)||(t.contact||"").toLowerCase().includes(q);
+  });
+  $("#ticketsBody").innerHTML = rows.length ? rows.map(t=>`
+    <tr>
+      <td><b>${pad(t.number)}</b></td>
+      <td>${escapeHtml(t.code)}</td>
+      <td>${escapeHtml(t.name)}${t.student?`<br><small style="color:var(--ink-soft)">${escapeHtml(t.student)}</small>`:""}${t.method?`<br><small style="color:var(--ink-soft)">vía ${t.method==="transfer"?"transferencia":"Mercado Pago"}</small>`:""}</td>
+      <td>${escapeHtml(t.contact)}</td>
+      <td>${new Date(t.createdAt).toLocaleDateString("es-CL")}</td>
+      <td><span class="status-pill ${t.status==="paid"?"st-paid":"st-pending"}">${t.status==="paid"?"Pagado":"Pendiente"}</span></td>
+      <td>
+        ${t.status==="paid"
+          ? `<button class="btn btn-ghost mini" onclick="setStatus(${t.number},'pending')">Marcar pendiente</button>`
+          : `<button class="btn btn-pine mini" onclick="setStatus(${t.number},'paid')">Confirmar pago</button>`}
+        <button class="btn btn-ghost mini" style="color:var(--coral);border-color:#f3c6c6" onclick="delTicket(${t.number})">🗑</button>
+      </td>
+    </tr>`).join("") : `<tr><td colspan="7" style="text-align:center;color:var(--ink-soft);padding:24px">Aún no hay tickets vendidos.</td></tr>`;
+  // winner banner
+  if(STATE.winners && STATE.winners.length){
+    const multi = getPrizes().length>1;
+    $("#winnerBox").innerHTML = STATE.winners.map(w=>`
+      <div class="winner-row">
+        <span class="winner-rank">${multi ? (RANKS[w.rank]||("Premio "+(w.rank+1))) : "Ganador"}</span>
+        <div class="winner-num">${pad(w.number)}</div>
+        <p style="margin:0;font-weight:800">🏆 ${escapeHtml(w.name)} — código ${escapeHtml(w.code)}</p>
+        <p class="winner-prize">Gana: ${escapeHtml(w.prizeName||"—")}</p>
+      </div>`).join("");
+  } else { $("#winnerBox").innerHTML=""; }
+  updateDrawButton();
+}
+async function setStatus(num,st){
+  await loadState();
+  const t = STATE.tickets.find(x=>x.number===num); if(t){ t.status=st; await saveState(); renderAdmin(); renderPublic(); }
+}
+async function delTicket(num){
+  if(!confirm("¿Eliminar el ticket N° "+pad(num)+"? Esta acción no se puede deshacer.")) return;
+  await loadState();
+  STATE.tickets = STATE.tickets.filter(x=>x.number!==num);
+  STATE.winners = (STATE.winners||[]).filter(w=>w.number!==num);
+  STATE.winner = STATE.winners[0] || null;
+  await saveState(); renderAdmin(); renderPublic();
+}
+window.setStatus = setStatus; window.delTicket = delTicket;
+
+async function drawWinner(){
+  await loadState();
+  const prizes = getPrizes();
+  const already = (STATE.winners||[]).length;
+  if(already >= prizes.length){
+    alert("Ya se sortearon todos los premios. Usa «Reiniciar ganadores» para sortear de nuevo.");
+    return;
+  }
+  const wonNums = new Set((STATE.winners||[]).map(w=>w.number));
+  const pool = STATE.tickets.filter(t=>t.status==="paid" && !wonNums.has(t.number));
+  if(!pool.length){ alert("No hay más tickets pagados disponibles para sortear."); return; }
+  const rank = already;                       // próximo premio a sortear
+  const banner = $("#winnerBox");
+  drawing = true;
+  $("#drawBtn").disabled = true;
+  renderAdmin();                              // muestra ganadores ya decididos
+  // ranura temporal que gira para este premio
+  const slot = document.createElement("div");
+  slot.className = "winner-row";
+  slot.innerHTML = `<span class="winner-rank">${RANKS[rank]||("Premio "+(rank+1))}</span><div class="winner-num">····</div><p class="winner-prize">Gana: ${escapeHtml(prizes[rank].name||"—")}</p>`;
+  banner.appendChild(slot);
+  const numEl = slot.querySelector(".winner-num");
+  let ticks=0;
+  const spin = setInterval(()=>{
+    const r = pool[Math.floor(Math.random()*pool.length)];
+    numEl.textContent = pad(r.number);
+    if(++ticks>22){
+      clearInterval(spin);
+      const w = pool[Math.floor(Math.random()*pool.length)];
+      STATE.winners = STATE.winners||[];
+      STATE.winners.push({ rank, prizeName:prizes[rank].name, number:w.number, name:w.name, code:w.code });
+      STATE.winner = STATE.winners[0] || null; // compatibilidad
+      saveState();
+      drawing = false;
+      renderAdmin();                          // re-dibuja la lista completa
+      try{ confettiBurst(); }catch(e){}
+    }
+  },70);
+}
+function updateDrawButton(){
+  const btn = $("#drawBtn"); if(!btn) return;
+  if(drawing) return;                         // no tocar el botón mientras gira
+  const prizes = getPrizes();
+  const n = (STATE.winners||[]).length;
+  if(n >= prizes.length){
+    btn.textContent = "✓ Sorteo completo";
+    btn.disabled = true;
+  } else {
+    btn.disabled = false;
+    btn.textContent = prizes.length>1 ? ("🎰 Sortear " + (RANKS[n]||("premio "+(n+1)))) : "🎰 Realizar sorteo";
+  }
+}
+async function resetDraw(){
+  await loadState(); STATE.winners=[]; STATE.winner=null; await saveState(); renderAdmin();
+}
+async function resetContest(){
+  const key = prompt("Para iniciar un concurso nuevo, ingresa la clave de organizadores:");
+  if(key === null) return;                       // cancelado
+  if(key !== STATE.config.pw){ alert("Clave incorrecta. No se realizó ningún cambio."); return; }
+  if(!confirm("¿Eliminar TODAS las compras de tickets y comenzar un concurso nuevo?\n\nEsta acción no se puede deshacer. La configuración (premios, precio y datos de pago) se conserva.")) return;
+  await loadState();
+  STATE.tickets = [];
+  STATE.nextNumber = 1;
+  STATE.winners = [];
+  STATE.winner = null;
+  await saveState();
+  renderAdmin();
+  renderPublic();
+  alert("Listo. El concurso fue reiniciado: 0 tickets vendidos.");
+}
+
+function exportCSV(){
+  const head = ["Numero","Codigo","Nombre: BORIS MATAMALA","Contacto","Alumno","Estado","Valor","Fecha"];
+  const rows = STATE.tickets.map(t=>[pad(t.number),t.code,t.name,t.contact,t.student||"",t.status,t.price,t.createdAt]);
+  const csv = [head,...rows].map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(",")).join("\n");
+  const blob = new Blob([csv],{type:"text/csv;charset=utf-8"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "tickets-prekinder-b.csv";
+  a.click();
+}
+
+/* simple confetti */
+function confettiBurst(){
+  const cols=["#F2A03D","#E8743B","#1F6E5C","#5EA6C9","#E86A6A","#FFD27A"];
+  for(let i=0;i<70;i++){
+    const d=document.createElement("div");
+    d.style.cssText=`position:fixed;z-index:200;width:9px;height:14px;top:-20px;left:${Math.random()*100}vw;
+      background:${cols[i%cols.length]};border-radius:2px;pointer-events:none;
+      transform:rotate(${Math.random()*360}deg)`;
+    document.body.appendChild(d);
+    const fall=2000+Math.random()*1500, drift=(Math.random()-.5)*240;
+    d.animate([{transform:`translate(0,0) rotate(0)`,opacity:1},
+      {transform:`translate(${drift}px,110vh) rotate(${720+Math.random()*360}deg)`,opacity:.9}],
+      {duration:fall,easing:"cubic-bezier(.3,.7,.5,1)"});
+    setTimeout(()=>d.remove(),fall);
+  }
+}
+
+/* ============ MODALS / NAV ============ */
+function openAdmin(){
+  $("#publicSite").style.display="none";
+  $("#adminPanel").classList.add("show");
+  window.scrollTo(0,0);
+  renderAdmin();
+}
+function requestAdmin(){ $("#pwOverlay").classList.add("show"); $("#pwInput").focus(); }
+
+/* ============ CONFIG ============ */
+function openCfg(){
+  const c=STATE.config;
+  const pr = getPrizes();
+  for(let i=0;i<3;i++){
+    $("#cfgPrize"+(i+1)).value = pr[i] ? pr[i].name : "";
+    $("#cfgImg"+(i+1)).value   = pr[i] ? (pr[i].img||"") : "";
+  }
+  $("#cfgPrice").value=c.price;
+  $("#cfgDate").value=c.date; $("#cfgBank").value=c.bank; $("#cfgMpLink").value=c.mpLink||""; $("#cfgPw").value=c.pw;
+  $("#cfgOverlay").classList.add("show");
+}
+async function saveCfg(){
+  await loadState();
+  const prizes=[];
+  for(let i=1;i<=3;i++){
+    const nm=$("#cfgPrize"+i).value.trim();
+    if(nm) prizes.push({name:nm, img:$("#cfgImg"+i).value.trim()});
+  }
+  if(prizes.length){
+    STATE.config.prizes=prizes;
+    STATE.config.prize=prizes[0].name;       // back-compat
+    STATE.config.prizeImg=prizes[0].img||"";
+  }
+  STATE.config.price=Math.max(0,parseInt($("#cfgPrice").value)||STATE.config.price);
+  STATE.config.date=$("#cfgDate").value.trim()||STATE.config.date;
+  STATE.config.bank=$("#cfgBank").value.trim();
+  STATE.config.mpLink=$("#cfgMpLink").value.trim();
+  STATE.config.pw=$("#cfgPw").value.trim()||STATE.config.pw;
+  await saveState();
+  $("#cfgOverlay").classList.remove("show");
+  renderPublic(); renderAdmin();
+}
+
+/* ============ WIRING ============ */
+document.addEventListener("DOMContentLoaded", async ()=>{
+  await loadState();
+  renderPublic();
+
+  if(!hasStore){
+    const n=document.createElement("p"); n.className="notice";
+    n.innerHTML="ℹ️ Estás viendo una vista previa local: los tickets se guardan permanentemente cuando la página corre dentro de Claude. Para uso real con varios compradores, publica el sitio con un servicio de hosting (ver instrucciones).";
+    $("#comprar .wrap").prepend(n);
+  }
+
+  $("#plus").onclick=()=>{ $("#fQty").value=(parseInt($("#fQty").value)||1)+1; updateTotal(); };
+  $("#minus").onclick=()=>{ $("#fQty").value=Math.max(1,(parseInt($("#fQty").value)||1)-1); updateTotal(); };
+  $("#fQty").oninput=updateTotal;
+  $("#fName").oninput=updateTotal;
+  $("#payBtn").onclick=payMP;
+  $("#transferBtn").onclick=payTransfer;
+  $("#confirmBuyBtn").onclick=buyTickets;
+  $("#reopenPayBtn").onclick=openPayLink;
+  $("#cancelPayBtn").onclick=resetPayFlow;
+  $("#lookupBtn").onclick=lookup;
+  $("#lookupCode").addEventListener("keydown",e=>{ if(e.key==="Enter") lookup(); });
+
+  $("#closeTicket").onclick=()=>$("#ticketOverlay").classList.remove("show");
+  $("#newBuyBtn").onclick=()=>{ $("#ticketOverlay").classList.remove("show"); $("#fName").value="";$("#fContact").value="";$("#fStudent").value="";$("#fQty").value=1; resetPayFlow(); updateTotal(); location.hash="#comprar"; };
+  $("#printTicketBtn").onclick=()=>window.print();
+
+  $("#adminToggle").onclick=requestAdmin;
+  $("#footerAdmin").onclick=requestAdmin;
+  $("#closePw").onclick=()=>$("#pwOverlay").classList.remove("show");
+  $("#pwBtn").onclick=()=>{
+    if($("#pwInput").value===STATE.config.pw){ $("#pwOverlay").classList.remove("show"); $("#pwError").style.display="none"; $("#pwInput").value=""; openAdmin(); }
+    else { $("#pwError").style.display="block"; }
+  };
+  $("#pwInput").addEventListener("keydown",e=>{ if(e.key==="Enter") $("#pwBtn").click(); });
+
+  $("#searchAdmin").oninput=renderAdmin;
+  $("#drawBtn").onclick=drawWinner;
+  $("#resetDrawBtn").onclick=resetDraw;
+  $("#exportBtn").onclick=exportCSV;
+  $("#configBtn").onclick=openCfg;
+  $("#resetContestBtn").onclick=resetContest;
+  $("#closeCfg").onclick=()=>$("#cfgOverlay").classList.remove("show");
+  $("#saveCfg").onclick=saveCfg;
+
+  document.querySelectorAll(".overlay").forEach(o=>o.addEventListener("click",e=>{ if(e.target===o) o.classList.remove("show"); }));
+});
+</script>
