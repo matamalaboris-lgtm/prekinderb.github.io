@@ -163,7 +163,12 @@
   .prize-dots{display:flex;gap:7px;margin:0 0 16px;min-height:7px}
   .prize-dots i{width:7px;height:7px;border-radius:99px;background:var(--line);transition:width .25s ease, background .25s ease;display:block}
   .prize-dots i.active{background:var(--sun);width:20px}
-  .cfg-prize{display:grid;grid-template-columns:1.25fr 1fr;gap:8px;margin-bottom:8px}
+  .cfg-prize{display:grid;grid-template-columns:auto 1.2fr 1fr;gap:8px;margin-bottom:8px;align-items:center}
+  .prize-num{flex:none;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;
+    font-family:"Sora";font-weight:700;font-size:.82rem;color:#fff;background:var(--pine)}
+  .prize-row-del{flex:none;width:38px;height:38px;border-radius:10px;border:1px solid var(--line);background:#fff;
+    color:var(--coral);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:border-color .15s}
+  .prize-row-del:hover{border-color:var(--coral)}
   .cfg-photo{display:flex;align-items:center;gap:6px}
   .photo-btn{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;
     border:1.5px dashed var(--line);border-radius:12px;background:var(--cream);color:var(--ink-soft);
@@ -484,7 +489,8 @@
             <span class="t-lab">Total a pagar</span>
             <span class="t-val" id="totalVal">$0</span>
           </div>
-          <p class="hint">Pagarás por Mercado Pago y luego se generará un número único por cada ticket.</p>
+          <p class="hint">
+</p>
 
           <div class="pay-box">
             <h4>💳 Cómo pagar</h4>
@@ -641,23 +647,16 @@
     <h3>Configurar sorteo</h3>
     <p class="sub">Estos datos se muestran en toda la página</p>
     <label>Premios del sorteo</label>
-    <p class="hint" style="margin-top:0">Agrega hasta 3 premios. Sube una foto desde tu dispositivo (se optimiza sola). La tarjeta los muestra rotando en orden aleatorio.</p>
-    <div class="cfg-prize"><input id="cfgPrize1" type="text" placeholder="1er premio — nombre" />
-      <div class="cfg-photo"><input type="hidden" id="cfgImg1" /><label class="photo-btn" id="cfgPrev1"><input type="file" accept="image/*" id="cfgFile1" hidden /><span class="pb-txt">📷 Subir foto</span></label><button type="button" class="photo-clear" id="cfgClear1" title="Quitar foto">✕</button></div>
-    </div>
-    <div class="cfg-prize"><input id="cfgPrize2" type="text" placeholder="2º premio — nombre (opcional)" />
-      <div class="cfg-photo"><input type="hidden" id="cfgImg2" /><label class="photo-btn" id="cfgPrev2"><input type="file" accept="image/*" id="cfgFile2" hidden /><span class="pb-txt">📷 Subir foto</span></label><button type="button" class="photo-clear" id="cfgClear2" title="Quitar foto">✕</button></div>
-    </div>
-    <div class="cfg-prize"><input id="cfgPrize3" type="text" placeholder="3er premio — nombre (opcional)" />
-      <div class="cfg-photo"><input type="hidden" id="cfgImg3" /><label class="photo-btn" id="cfgPrev3"><input type="file" accept="image/*" id="cfgFile3" hidden /><span class="pb-txt">📷 Subir foto</span></label><button type="button" class="photo-clear" id="cfgClear3" title="Quitar foto">✕</button></div>
-    </div>
+    <p class="hint" style="margin-top:0">Agrega los premios que quieras. Sube una foto desde tu dispositivo (se optimiza sola). La tarjeta los muestra rotando en orden aleatorio.</p>
+    <div id="cfgPrizeList"></div>
+    <button type="button" class="btn btn-ghost" id="addPrizeBtn" style="width:100%;justify-content:center;margin:2px 0 6px;padding:11px">➕ Agregar premio</button>
     <label>Valor por ticket (CLP)</label>
     <input id="cfgPrice" type="number" min="0" />
     <label>Fecha del sorteo</label>
     <input id="cfgDate" type="text" placeholder="Ej: 15 de agosto" />
     <label>Datos de transferencia (uno por línea)</label>
     <input id="cfgBank" type="text" placeholder="Banco · Cuenta · RUT · Nombre · Correo" />
-    <p class="hint">Formato sugerido: «Banco Estado | Cuenta Vista 12345678 | RUT 11.111.111-1 | Curso PreK B | <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6a090518180f052a070b030644090507">[email&#160;protected]</a>» separando cada dato con « | ».</p>
+    <p class="hint">Formato sugerido: «Banco Estado | Cuenta Vista 12345678 | RUT 11.111.111-1 | Curso PreK B | <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="eb888499998e84ab868a8287c5888486">[email&#160;protected]</a>» separando cada dato con « | ».</p>
     <label>Link de pago Mercado Pago <span style="font-weight:600;color:var(--ink-soft)">— opcional</span></label>
     <input id="cfgMpLink" type="text" placeholder="https://mpago.la/xxxxx" />
     <p class="hint">Crea un «Link de pago» en tu cuenta Mercado Pago (idealmente de «monto libre») y pégalo aquí. Aparecerá un botón para pagar al generar el ticket.</p>
@@ -896,7 +895,7 @@ function paintPrize(prizes, idx){
     if(p.img){ ph.style.backgroundImage=`url("${p.img.replace(/"/g,'&quot;')}")`; ph.classList.add("has-img"); ph.innerHTML=""; }
     else { ph.style.backgroundImage="none"; ph.classList.remove("has-img"); ph.innerHTML='<span class="ph-label">foto del premio</span>'; }
     nm.textContent = p.name;
-    rb.textContent = prizes.length>1 ? RANKS[idx] : "¡Gran premio!";
+    rb.textContent = prizes.length>1 ? rankName(idx) : "¡Gran premio!";
     kc.textContent = prizes.length>1 ? "Uno de los premios" : "El ganador se lleva";
     setActiveDot(idx);
     ph.style.opacity=1; nm.style.opacity=1; rb.style.opacity=1;
@@ -1202,8 +1201,13 @@ async function downloadAllAdmin(btn){
   if(list.length>15 && !confirm("Vas a descargar "+list.length+" tickets como imágenes JPG (un archivo cada uno). ¿Continuar?")) return;
   await downloadTicketsList(list, btn);
 }
+function downloadAdminJpg(num, btn){
+  const t = (STATE.tickets||[]).find(x=>x.number===num);
+  if(t) triggerTicketDownload(t, btn);
+}
 window.downloadTicketJpg=downloadTicketJpg; window.downloadLookupJpg=downloadLookupJpg;
 window.downloadAllCreated=downloadAllCreated; window.downloadAllAdmin=downloadAllAdmin;
+window.downloadAdminJpg=downloadAdminJpg;
 
 /* ============ TICKET RENDER (modal) ============ */
 function ticketHtml(t, idx){
@@ -1298,7 +1302,8 @@ function renderAdmin(){
       <td><span class="status-pill ${t.status==="paid"?"st-paid":"st-pending"}">${t.status==="paid"?"Pagado":"Pendiente"}</span></td>
       <td>
         ${t.status==="paid"
-          ? `<button class="btn btn-ghost mini" onclick="setStatus(${t.number},'pending')">Marcar pendiente</button>`
+          ? `<button class="btn btn-sun mini" onclick="downloadAdminJpg(${t.number}, this)">⬇ JPG</button>
+             <button class="btn btn-ghost mini" onclick="setStatus(${t.number},'pending')">Marcar pendiente</button>`
           : `<button class="btn btn-pine mini" onclick="setStatus(${t.number},'paid')">Confirmar pago</button>`}
         <button class="btn btn-ghost mini" style="color:var(--coral);border-color:#f3c6c6" onclick="delTicket(${t.number})">🗑</button>
       </td>
@@ -1474,6 +1479,46 @@ function fileToScaledDataUrl(file, maxW=900, quality=0.78){
     fr.onerror=reject; fr.readAsDataURL(file);
   });
 }
+function rankName(i){ return RANKS[i] || ((i+1)+"º premio"); }
+let prizeRowSeq = 0;
+function renumberPrizeRows(){
+  const rows = [...document.querySelectorAll("#cfgPrizeList .cfg-prize")];
+  rows.forEach((row,idx)=>{
+    const num = row.querySelector(".prize-num");
+    if(num) num.textContent = idx+1;
+    const inp = row.querySelector("input[type=text]");
+    if(inp) inp.placeholder = rankName(idx)+" — nombre";
+    const del = row.querySelector(".prize-row-del");
+    if(del) del.style.visibility = rows.length>1 ? "visible" : "hidden";
+  });
+}
+function addPrizeRow(name, img){
+  const i = ++prizeRowSeq;
+  const row = document.createElement("div");
+  row.className = "cfg-prize";
+  row.dataset.idx = i;
+  row.innerHTML =
+    `<span class="prize-num"></span>`+
+    `<input id="cfgPrize${i}" type="text" value="${escapeHtml(name||"")}" />`+
+    `<div class="cfg-photo">`+
+      `<input type="hidden" id="cfgImg${i}" />`+
+      `<label class="photo-btn" id="cfgPrev${i}"><input type="file" accept="image/*" id="cfgFile${i}" hidden /><span class="pb-txt">📷 Subir foto</span></label>`+
+      `<button type="button" class="photo-clear" id="cfgClear${i}" title="Quitar foto">✕</button>`+
+      `<button type="button" class="prize-row-del" title="Eliminar premio">🗑</button>`+
+    `</div>`;
+  $("#cfgPrizeList").appendChild(row);
+  $("#cfgFile"+i).addEventListener("change", e=>onPrizeFile(i, e.target));
+  $("#cfgClear"+i).onclick=()=>setPrizePhoto(i, "");
+  row.querySelector(".prize-row-del").onclick=()=>{ row.remove(); renumberPrizeRows(); };
+  setPrizePhoto(i, img||"");
+  renumberPrizeRows();
+  return i;
+}
+function renderPrizeRows(prizes){
+  $("#cfgPrizeList").innerHTML = "";
+  const list = (prizes && prizes.length) ? prizes : [{name:"",img:""}];
+  list.forEach(p=>addPrizeRow(p.name, p.img));
+}
 function setPrizePhoto(i, val){
   $("#cfgImg"+i).value = val || "";
   const btn=$("#cfgPrev"+i), clr=$("#cfgClear"+i), txt=btn.querySelector(".pb-txt");
@@ -1490,11 +1535,7 @@ async function onPrizeFile(i, input){
 }
 function openCfg(){
   const c=STATE.config;
-  const pr = getPrizes();
-  for(let i=0;i<3;i++){
-    $("#cfgPrize"+(i+1)).value = pr[i] ? pr[i].name : "";
-    setPrizePhoto(i+1, pr[i] ? (pr[i].img||"") : "");
-  }
+  renderPrizeRows(getPrizes());
   $("#cfgPrice").value=c.price;
   $("#cfgDate").value=c.date; $("#cfgBank").value=c.bank; $("#cfgMpLink").value=c.mpLink||""; $("#cfgWhats").value=c.whatsapp||""; $("#cfgPw").value=c.pw;
   $("#cfgOverlay").classList.add("show");
@@ -1502,10 +1543,11 @@ function openCfg(){
 async function saveCfg(){
   await loadState();
   const prizes=[];
-  for(let i=1;i<=3;i++){
-    const nm=$("#cfgPrize"+i).value.trim();
+  [...document.querySelectorAll("#cfgPrizeList .cfg-prize")].forEach(row=>{
+    const i = row.dataset.idx;
+    const nm = $("#cfgPrize"+i).value.trim();
     if(nm) prizes.push({name:nm, img:$("#cfgImg"+i).value.trim()});
-  }
+  });
   if(prizes.length){
     STATE.config.prizes=prizes;
     STATE.config.prize=prizes[0].name;       // back-compat
@@ -1563,10 +1605,7 @@ document.addEventListener("DOMContentLoaded", async ()=>{
   $("#resetContestBtn").onclick=resetContest;
   $("#closeCfg").onclick=()=>$("#cfgOverlay").classList.remove("show");
   $("#saveCfg").onclick=saveCfg;
-  for(let i=1;i<=3;i++){
-    $("#cfgFile"+i).addEventListener("change", e=>onPrizeFile(i, e.target));
-    $("#cfgClear"+i).onclick=()=>setPrizePhoto(i, "");
-  }
+  $("#addPrizeBtn").onclick=()=>addPrizeRow("","");
 
   document.querySelectorAll(".overlay").forEach(o=>o.addEventListener("click",e=>{ if(e.target===o) o.classList.remove("show"); }));
 });
