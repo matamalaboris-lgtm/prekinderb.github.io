@@ -656,7 +656,7 @@
     <input id="cfgDate" type="text" placeholder="Ej: 15 de agosto" />
     <label>Datos de transferencia (uno por línea)</label>
     <input id="cfgBank" type="text" placeholder="Banco · Cuenta · RUT · Nombre · Correo" />
-    <p class="hint">Formato sugerido: «Banco Estado | Cuenta Vista 12345678 | RUT 11.111.111-1 | Curso PreK B | <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4c2f233e3e29230c212d2520622f2321">[email&#160;protected]</a>» separando cada dato con « | ».</p>
+    <p class="hint">Formato sugerido: «Banco Estado | Cuenta Vista 12345678 | RUT 11.111.111-1 | Curso PreK B | correo@mail.com» separando cada dato con « | ».</p>
     <label>Link de pago Mercado Pago <span style="font-weight:600;color:var(--ink-soft)">— opcional</span></label>
     <input id="cfgMpLink" type="text" placeholder="https://mpago.la/xxxxx" />
     <p class="hint">Crea un «Link de pago» en tu cuenta Mercado Pago (idealmente de «monto libre») y pégalo aquí. Aparecerá un botón para pagar al generar el ticket.</p>
@@ -690,7 +690,7 @@
   <span class="wa-label">WhatsApp</span>
 </a>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 /* ============ STORAGE (compatible claude.ai con respaldo en memoria) ============ */
 const hasStore = typeof window !== "undefined" && window.storage && typeof window.storage.get === "function";
 let memCache = {};
@@ -709,7 +709,7 @@ async function sSet(key,val){
    Rellena estos dos valores con los de TU proyecto Supabase
    (Project Settings → API). El "anon key" es público y seguro de
    exponer. Mientras estén vacíos, el sitio funciona en modo local. */
-const SUPABASE_URL = "https://nzpjeoxweobwbqsbczom.supabase.co";       // Project URL
+const SUPABASE_URL = "https://vecemtesxdkchzpptyih.supabase.co";       // Project URL
 const SUPABASE_ANON_KEY = "sb_publishable_UedNNh7zPwk7eOXgeHthoA_53gZ7Wfc";  // publishable key
 const ORG_PASSWORD = "antu2026"; // clave de organizadores (modo nube)
 
